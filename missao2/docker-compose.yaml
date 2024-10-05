@@ -1,9 +1,9 @@
 services:
   frontend:
     build:
-      context: ./frontend
+      context: ./frontend/
     volumes:
-      - ./frontend:/usr/frontend
+      - ./frontend:/usr/app/
     ports:
       - "3000:3000"
     networks:
@@ -11,9 +11,9 @@ services:
 
   backend:
     build:
-      context: ./backend
+      context: ./backend/
     volumes:
-      - ./backend:/usr/backend
+      - ./backend:/usr/app/
     ports:
       - "5000:5000"
     networks:

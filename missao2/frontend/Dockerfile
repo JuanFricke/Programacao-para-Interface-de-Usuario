@@ -1,7 +1,7 @@
 # frontend/Dockerfile
 FROM node:18
 
-WORKDIR /usr/app
+WORKDIR /usr/app/
 
 COPY package.json .
 
