@@ -1,0 +1,20 @@
+services:
+  frontend:
+    build:
+      context: ./frontend
+    ports:
+      - "8100:8100"
+    volumes:
+      - ./frontend:/usr/src/app
+    environment:
+      - IONIC_ENABLE_LIVE_RELOAD=true
+
+  backend:
+    build:
+      context: ./backend
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./backend:/usr/src/app
+    environment:
+      - FLASK_ENV=development
