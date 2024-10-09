@@ -5,7 +5,10 @@ services:
     ports:
       - "8100:8100"
     volumes:
-      - ./frontend:/usr/src/app
+      - ./frontend/src:/usr/src/app/src:rw,z
+      - ./frontend/public:/usr/src/app/public:rw,z
+      - ./frontend/package.json:/usr/src/app/package.json:rw,z
+      - ./frontend/yarn.lock:/usr/src/app/yarn.lock:rw,z
     environment:
       - IONIC_ENABLE_LIVE_RELOAD=true
 
@@ -15,6 +18,6 @@ services:
     ports:
       - "5000:5000"
     volumes:
-      - ./backend:/usr/src/app
+      - ./backend/:/usr/src/app/:rw,z
     environment:
       - FLASK_ENV=development
