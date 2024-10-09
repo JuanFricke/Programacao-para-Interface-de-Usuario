@@ -1,4 +1,4 @@
-# Base image with Node.js 20 and Ionic
+# Base image with Node.js 20 and Yarn
 FROM node:20
 
 # Install Ionic CLI globally
@@ -7,11 +7,11 @@ RUN npm install -g @ionic/cli
 # Set the working directory
 WORKDIR /usr/src/app
 
-# Copy package.json and package-lock.json to install dependencies
-COPY package*.json ./
+# Copy package.json and yarn.lock to install dependencies
+COPY package.json yarn.lock ./
 
-# Install dependencies
-RUN npm install
+# Install dependencies with Yarn
+RUN yarn install
 
 # Copy the rest of the app code
 COPY . .
@@ -21,3 +21,4 @@ EXPOSE 8100
 
 # Command to run the app
 CMD ["ionic", "serve", "--host", "0.0.0.0"]
+
