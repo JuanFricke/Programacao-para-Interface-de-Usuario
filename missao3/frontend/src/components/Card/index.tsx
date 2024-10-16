@@ -1,7 +1,7 @@
 import React from 'react'; // Add this import
 import { IonCard, IonCardHeader, IonCardTitle, IonCardSubtitle, IonCardContent, IonImg, IonIcon } from '@ionic/react';
 import { folderOutline, trendingUpOutline } from 'ionicons/icons'; // Importing Ionic icons
-import './index.module.css'; // Use this to handle your custom styles
+import styles from './index.module.css'; // Use this to handle your custom styles
 
 interface CardProps {
   nome: string;
@@ -19,15 +19,14 @@ const Card: React.FC<CardProps> = ({
   corIcon = "#1976d2"
 }) => {
   return (
-    <IonCard>  
+    <IonCard className={styles.cardContainer}>
       <IonCardHeader style={{ backgroundColor: corIcon }}>
-        <IonCardTitle> {nome}</IonCardTitle> 
-        <IonCardSubtitle> {descricao}</IonCardSubtitle> 
-        <IonImg src={fotoProfessor} alt="Foto do professor" />
+        <IonCardTitle className={styles.cardTitle}> {nome}</IonCardTitle>
+        <IonCardSubtitle className={styles.cardDescription}> {descricao}</IonCardSubtitle> 
+        <IonImg src={fotoProfessor} alt="Foto do professor" className={styles.cardImage}/>
       </IonCardHeader>
-aaa
       <IonCardContent>
-        <IonImg src={urlImg} alt="Imagem da matéria" />
+        <IonImg src={urlImg} alt="Imagem da matéria" className={styles.cardBody}/>
       </IonCardContent>
 
       <div className="card-footer">

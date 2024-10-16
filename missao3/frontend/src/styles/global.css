@@ -42,10 +42,11 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    text-justify: center;
 }
 
 .mensagem {
-    margin: 0;
+    text-justify: center;
     font-size: 2rem;
 }
 
