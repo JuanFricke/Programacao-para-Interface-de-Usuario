@@ -1,0 +1,73 @@
+
+
+.cardContainer{
+    width: 100%;
+    height: 300px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+}
+
+.cardHeader {
+    color: white;
+    padding: 16px;
+    position: relative;
+}
+
+.cardCoverImage{
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 8px 8px 0 0;
+}
+
+.cardTitle{
+    margin: 0;
+  font-size: 1.375rem;
+  font-family: var(--font);
+  font-weight: 200;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  display: inline-block;
+  width: 90%;
+  direction: ltr;
+  white-space: nowrap;
+}
+
+.cardDescription{
+    margin: 4px 0;
+    font-size: 0.9em;
+    font-family: var(--font);
+}
+
+.cardImage{
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    width: 75px;
+    height: 75px;
+    border-radius: 50%;
+    background-color: white;
+    border: 1px solid #ccc;
+}
+
+.cardBody{
+    height: 150px;
+}
+
+.cardFooter{
+    padding: 10px;
+    border-top: 1px solid #eee;
+    display: flex;
+    justify-content: flex-end;
+    gap: 24px;
+}
+
+.folderIcon, .trendingIcon{
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+}

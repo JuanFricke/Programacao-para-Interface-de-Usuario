@@ -1,0 +1,54 @@
+.menuContainer{
+    position: fixed;
+    top: 0;
+    width: 100%;
+    display: flex;
+    justify-content:space-between;
+    align-items: center;
+    padding: 10px 16px;
+    border-bottom: 1px solid var(--color-grey-light);
+    box-sizing: border-box;
+    background-color: #fff;
+    z-index: 99999;
+}
+
+.header {
+    height: 69px;
+}
+
+.menuNavbar{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 24px;
+    margin-left:5px;
+}
+
+.menuHamburgerIcon, .menuAddIcon, .menuAppsIcon, .menuUseraccountIcon{
+    width: 30px;
+}
+
+.menuClassroomIcon{
+    width: 48px;
+}
+
+.menuTitle{
+    color: var(--color-grey);
+    font-family: var(--font);
+    font-size: 22px;
+}
+
+.menuUser{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 24px;
+}
+
+.btn_hamburger {
+    background: transparent;
+    border: none;
+    width: 30px;
+    padding: 0;
+    cursor: pointer;
+}
