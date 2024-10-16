@@ -1,0 +1,92 @@
+[
+  {
+    "nome": "Dr. Squarepants",
+    "foto": "https://media.tenor.com/CfehHzxZMwAAAAAe/nerd-spongebob-nerd.png",
+    "materias": [
+      {
+        "id": "1",
+        "titulo": "Algoritmos Quadráticos",
+        "fotoCapa": "https://www.mundojs.com.br/wp-content/uploads/2018/02/algorithms.png",
+        "corIcon": "#bbb200"
+      },
+      {
+        "id": "2",
+        "titulo": "Cubo de Dados",
+        "fotoCapa": "https://blog.naveenchandra.co.in/wp-content/uploads/2023/09/Online-Analytical-Processing.png",
+        "corIcon": "#fff758"
+      }
+    ]
+  },
+  {
+    "nome": "Dr. Mario",
+    "foto": "https://preview.redd.it/dr-mario-s%C3%B3-que-jojo-v0-58vasef8h91d1.jpeg?width=1171&format=pjpg&auto=webp&s=016b3c4e6f4e73b05b069de0a32bcd76e3ceaadf",
+    "materias": [
+      {
+        "id": "3",
+        "titulo": "Programação Orientada a PowerUps",
+        "fotoCapa": "https://academiatech.s3.amazonaws.com/wp-content/uploads/2023/03/ilustracao-notebook-30032023-1024x576.webp",
+        "corIcon": "#ff3f39"
+      },
+      {
+        "id": "4",
+        "titulo": "Análise de Blocos",
+        "fotoCapa": "https://i.ytimg.com/vi/O96mff6EHEc/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLDOqqoATufc4-OjxFW6Uc01rhqtJg",
+        "corIcon": "#3f52ff"
+      }
+    ]
+  },
+  {
+    "nome": "Prof. Padoin",
+    "foto": "https://i1.rgstatic.net/ii/profile.image/444595516514308-1483011239843_Q512/Edson-Padoin-2.jpg",
+    "materias": [
+      {
+        "id": "5",
+        "titulo": "Sistemas Operacionais",
+        "fotoCapa": "https://c4.wallpaperflare.com/wallpaper/87/246/528/technology-linux-devil-fog-wallpaper-preview.jpg",
+        "corIcon": "#7708b1"
+      },
+      {
+        "id": "6",
+        "titulo": "PI - 48 horas sem dormir",
+        "fotoCapa": "https://keyassets.timeincuk.net/inspirewp/live/wp-content/uploads/sites/21/2020/07/sleep-deprivation-nav-station-credit-James-Blake-Volvo-Ocean-Race-630x394.jpg",
+        "corIcon": "#0ab108"
+      }
+    ]
+  },
+  {
+    "nome": "Prof. Lori Filho",
+    "foto": "https://lh3.googleusercontent.com/a-/ALV-UjVUojLAsXB1bfaHlwRs3FAVLqVpqqJS70eqiXmNflLeUHtPhcs=s32-c",
+    "materias": [
+      {
+        "id": "7",
+        "titulo": "Programação para Interface de Pergaminhos",
+        "fotoCapa": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQUSrdT3etu70NqIBjY7HVv06QGhw6k4rDQhQ&s",
+        "corIcon": "#f77d00"
+      },
+      {
+        "id": "8",
+        "titulo": "Reuso de Spells",
+        "fotoCapa": "https://media-cldnry.s-nbcnews.com/image/upload/t_social_share_1024x768_scale,f_auto,q_auto:best/newscms/2014_47/779781/141122-spells.jpg",
+        "corIcon": "#e2a35d"
+      }
+    ]
+  },
+  {
+    "nome": "Dr. Gepeto",
+    "foto": "https://in.bot/cases/roboed/fotos/ed-foto-2.jpg",
+    "materias": [
+      {
+        "id": "9",
+        "titulo": "Burrice Artificial",
+        "fotoCapa": "https://media.licdn.com/dms/image/C4E12AQHAKbYarHvvLQ/article-cover_image-shrink_600_2000/0/1520216511587?e=2147483647&v=beta&t=-gNQuNriDvKsRXnl3lBPnV9Xzzbi4yQJNg1VNjtJvck",
+        "corIcon": "#9696a9"
+      },
+      {
+        "id": "10",
+        "titulo": "Engenharia de Prompts",
+        "fotoCapa": "https://i.ytimg.com/vi/yVx5wtA3s2Q/maxresdefault.jpg",
+        "corIcon": "#7777ff"
+      }
+    ]
+  }
+]

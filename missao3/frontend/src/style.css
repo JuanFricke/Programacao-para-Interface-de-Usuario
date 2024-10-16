@@ -1,0 +1,52 @@
+:root {
+  --color-grey: #5f6358;
+  --color-grey-light: rgba(0, 0, 0, .12);
+  --color-blue: rgba(173, 216, 230, 0.4);
+  --font: 'Roboto', sans-serif;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+* {
+  font-family: var(--font);
+}
+
+.containerCards {
+  margin-left: 73px;
+  padding: 24px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  gap: 10px;
+  width: calc(100% - 73px);
+  box-sizing: border-box;
+}
+
+.container {
+  position: relative;
+  width: 100%;
+}
+
+.gifNotFound{
+  width: 600px;
+}
+
+.mensagemSmTurma {
+  padding: 24px;
+  margin-left: 73px;
+  width: calc(100% - 73px);
+  height: calc(100vh - 86px);
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.mensagem {
+  margin: 0;
+  font-size: 2rem;
+}
