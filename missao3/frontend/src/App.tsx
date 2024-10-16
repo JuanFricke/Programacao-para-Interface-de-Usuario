@@ -1,17 +1,46 @@
-import { useState, useEffect } from "react";
-import { IonApp, IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonGrid, IonRow, IonCol, IonButton, IonIcon } from "@ionic/react";
+import { IonApp, setupIonicReact, IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonGrid, IonRow, IonCol, IonButton, IonIcon, IonModal  } from '@ionic/react';
 import { addOutline } from "ionicons/icons";
-import "@ionic/react/css/core.css";
-import "./styles/global.css";
+import { useState, useEffect } from "react";
 
-/* Import your components */
-import Menu from "../components/Menu";
-import MenuLateral from "../components/MenuLateral";
-import Modal from "../components/Modal";
-import Card from "../components/Card";
-import ButtonAdd from "../components/ButtonAdd"; // Importing ButtonAdd
+/* Core CSS required for Ionic components to work properly */
+import '@ionic/react/css/core.css';
 
-const backendAddress = "http://localhost:5000/";
+/* Basic CSS for apps built with Ionic */
+import '@ionic/react/css/normalize.css';
+import '@ionic/react/css/structure.css';
+import '@ionic/react/css/typography.css';
+
+/* Optional CSS utils that can be commented out */
+import '@ionic/react/css/padding.css';
+import '@ionic/react/css/float-elements.css';
+import '@ionic/react/css/text-alignment.css';
+import '@ionic/react/css/text-transformation.css';
+import '@ionic/react/css/flex-utils.css';
+import '@ionic/react/css/display.css';
+import './styles/global.css';
+
+
+import MenuLateral from "./components/MenuLateral";
+import Modal from "./components/Modal";
+import Card from "./components/Card";
+import ButtonAdd from "./components/ButtonAdd";
+import Menu from "./components/Menu";
+/**
+ * Ionic Dark Mode
+ * -----------------------------------------------------
+ * For more info, please see:
+ * https://ionicframework.com/docs/theming/dark-mode
+ */
+
+/* import '@ionic/react/css/palettes/dark.always.css'; */
+/* import '@ionic/react/css/palettes/dark.class.css'; */
+import '@ionic/react/css/palettes/dark.system.css';
+
+/* Theme variables */
+import './theme/variables.css';
+
+setupIonicReact();
+const backendAddress = "http://10.0.0.252:5000/";
 
 const App: React.FC = () => {
   const [open, setOpen] = useState(false);
@@ -48,34 +77,32 @@ const App: React.FC = () => {
     fetchProfessores();
   }, []);
 
+
   return (
-    <IonApp>
+<IonApp>
       <IonPage>
         <IonHeader>
-          <IonToolbar>
-            <IonTitle>My Ionic App</IonTitle>
-          </IonToolbar>
+          {/* <IonToolbar>
+            <IonTitle>Lori Classroom</IonTitle>
+          </IonToolbar> */}
         </IonHeader>
 
         <IonContent>
-          {/* Menu */}
           <Menu menuOpen={setOpen} open={open} setOpenModal={setOpenModal} />
-
           <IonGrid>
             <IonRow>
-              {/* Side Menu */}
-              <IonCol size="3">
-                <MenuLateral open={open} turmas={disciplinas} />
-              </IonCol>
-
-              {/* Main Content */}
-              <IonCol size="9">
+              <IonModal isOpen={open} className='modal-class'>
+              <MenuLateral open={open} turmas={disciplinas} />
+              </IonModal>
                 {disciplinas.length > 0 ? (
-                  <IonGrid className="containerCards">
-                    <IonRow>
+                  <IonCol>
+                    <IonButton expand="full" onClick={() => setOpenModal(true)}>
+                        <IonIcon icon={addOutline} />
+                        Add Class
+                      </IonButton>
                       {disciplinas.map(
                         ({ id, titulo, professor, fotoCapa, fotoProfessor, corIcon }) => (
-                          <IonCol size="12" size-md="4" key={id}>
+                          <IonCol size="10" size-md="4" key={id}>
                             <Card
                               nome={titulo}
                               descricao={professor}
@@ -86,12 +113,7 @@ const App: React.FC = () => {
                           </IonCol>
                         )
                       )}
-                      <IonButton expand="full" onClick={() => setOpenModal(true)}>
-                        <IonIcon icon={addOutline} />
-                        Add Class
-                      </IonButton>
-                    </IonRow>
-                  </IonGrid>
+                  </IonCol>
                 ) : (
                   <IonGrid className="mensagemSmTurma">
                     <IonRow>
@@ -106,11 +128,9 @@ const App: React.FC = () => {
                     </IonRow>
                   </IonGrid>
                 )}
-              </IonCol>
             </IonRow>
           </IonGrid>
 
-          {/* Modal */}
           {openModal && <Modal setOpenModal={setOpenModal} isOpen={false}/>}
         </IonContent>
       </IonPage>

@@ -17,11 +17,11 @@ body {
 
 .containerCards {
     margin-left: 73px;
+    margin-right: 73px;
     padding: 24px;
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
     gap: 10px;
-    width: calc(100% - 73px);
+    width: 100%;
     box-sizing: border-box;
 }
 
@@ -36,8 +36,6 @@ body {
 
 .mensagemSmTurma {
     padding: 24px;
-    margin-left: 73px;
-    width: calc(100% - 73px);
     height: calc(100vh - 86px);
     box-sizing: border-box;
     display: flex;
@@ -49,4 +47,17 @@ body {
 .mensagem {
     margin: 0;
     font-size: 2rem;
+}
+
+.modal-class {  
+    --width: 75%;
+    --height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    margin: 0;
+    border-radius: 0;
+    display: flex;
+    justify-content: flex-start;
+    align-items: stretch;
 }

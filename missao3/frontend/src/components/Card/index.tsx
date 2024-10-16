@@ -19,20 +19,20 @@ const Card: React.FC<CardProps> = ({
   corIcon = "#1976d2"
 }) => {
   return (
-    <IonCard className="card-container">
-      <IonCardHeader className="card-header" style={{ backgroundColor: corIcon }}>
-        <IonCardTitle className="card-title">{nome}</IonCardTitle> {/* Nome da matéria */}
-        <IonCardSubtitle className="card-description">{descricao}</IonCardSubtitle> {/* Nome do professor */}
-        <IonImg className="card-image" src={fotoProfessor} alt="Foto do professor" /> {/* Foto do professor */}
+    <IonCard>  
+      <IonCardHeader style={{ backgroundColor: corIcon }}>
+        <IonCardTitle> {nome}</IonCardTitle> 
+        <IonCardSubtitle> {descricao}</IonCardSubtitle> 
+        <IonImg src={fotoProfessor} alt="Foto do professor" />
       </IonCardHeader>
-
-      <IonCardContent className="card-body">
-        <IonImg className="card-cover" src={urlImg} alt="Imagem da matéria" /> {/* Imagem da matéria (foto de capa) */}
+aaa
+      <IonCardContent>
+        <IonImg src={urlImg} alt="Imagem da matéria" />
       </IonCardContent>
 
       <div className="card-footer">
-        <IonIcon className="trending-icon" icon={trendingUpOutline} /> {/* Icon with Ionic's icon system */}
-        <IonIcon className="folder-icon" icon={folderOutline} /> {/* Icon with Ionic's icon system */}
+        <IonIcon className="trending-icon" icon={trendingUpOutline} /> 
+        <IonIcon className="folder-icon" icon={folderOutline} />
       </div>
     </IonCard>
   );
