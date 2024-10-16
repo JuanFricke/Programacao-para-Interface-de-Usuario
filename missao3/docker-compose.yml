@@ -8,7 +8,6 @@ services:
       - ./frontend/src:/usr/src/app/src:rw,z
       - ./frontend/public:/usr/src/app/public:rw,z
       - ./frontend/package.json:/usr/src/app/package.json:rw,z
-      - ./frontend/yarn.lock:/usr/src/app/yarn.lock:rw,z
     environment:
       - backendip="http://localhost:5000/"
       - IONIC_ENABLE_LIVE_RELOAD=true

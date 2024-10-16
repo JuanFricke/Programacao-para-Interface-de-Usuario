@@ -1,5 +1,7 @@
 {
-  "name": "missao3",
-  "integrations": {},
-  "type": "react"
+  "name": "teste",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react-vite"
 }
