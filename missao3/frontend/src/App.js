@@ -12,7 +12,8 @@ function App() {
   const [openModal, setOpenModal] = useState(false);
   const [professores, setProfessores] = useState([]);
   const [disciplinas, setDisciplinas] = useState([]);
-  const backendAddress = "http://192.168.112.230:5000/";
+  const backendAddress = "http://localhost:5000/"
+  // const backendAddress = process.env.backendip;
 
 useEffect(() => {
   const fetchProfessores = async () => {
