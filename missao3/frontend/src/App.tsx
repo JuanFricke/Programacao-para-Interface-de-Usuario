@@ -40,7 +40,7 @@ import '@ionic/react/css/palettes/dark.system.css';
 import './theme/variables.css';
 
 setupIonicReact();
-const backendAddress = "http://192.168.112.230:5000/";
+const backendAddress = "https://python.juanfricke.dev/";
 
 const App: React.FC = () => {
   const [open, setOpen] = useState(false);
