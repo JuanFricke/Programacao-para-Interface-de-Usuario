@@ -10,7 +10,7 @@ import (
 func main() {
     router := mux.NewRouter()
 
-    router.HandleFunc("/api/books", getBooks).Methods("GET")
+    router.HandleFunc("/api/livroes/", getBooks).Methods("GET")
     router.HandleFunc("/api/books/{id}", getBook).Methods("GET")
     router.HandleFunc("/api/books", createBook).Methods("POST")
     router.HandleFunc("/api/books/{id}", updateBook).Methods("PUT")
