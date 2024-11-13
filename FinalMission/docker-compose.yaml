@@ -1,3 +1,5 @@
+version: '3.8'
+
 services:
   frontend:
     build:
@@ -20,6 +22,21 @@ services:
       - dev-net
     environment:
       - PORT=8000
+
+  postgres:
+    image: postgres:latest
+    env_file:
+      - .env
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - dev-net
+
 networks:
   dev-net:
     driver: bridge
+
+volumes:
+  pgdata:
