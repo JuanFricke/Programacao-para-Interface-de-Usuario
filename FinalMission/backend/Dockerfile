@@ -1,17 +1,23 @@
-# backend/Dockerfile
-FROM python:3.12
+# Start from the official Go image
+FROM golang:1.23.3-alpine3.20
 
-WORKDIR /usr/app/
+# Set the working directory in the container
+WORKDIR /app
 
-# Instalar dependências
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+# Copy go.mod and go.sum files for dependency management
+COPY go.mod go.sum ./
 
-# Copiar o código do app
+# Download dependencies
+RUN go mod download
+
+# Copy the entire project into the working directory
 COPY . .
 
-# Expor a porta onde o Flask estará rodando
-EXPOSE 5000
+# Build the Go app (output will be an executable named "app")
+RUN go build -o app .
 
-# Comando para rodar o servidor Flask
-CMD ["flask", "run", "--host=0.0.0.0", "--port=5000"]
+# Expose the application port
+EXPOSE 8000
+
+# Run the executable
+CMD ["./app"]
