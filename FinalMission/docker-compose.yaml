@@ -15,12 +15,11 @@ services:
     volumes:
       - ./backend:/usr/app/
     ports:
-      - "5000:5000"
+      - "5000:8000"
     networks:
       - dev-net
     environment:
-      FLASK_APP: app.py
-      FLASK_ENV: development
+      - PORT=8000
 networks:
   dev-net:
     driver: bridge
