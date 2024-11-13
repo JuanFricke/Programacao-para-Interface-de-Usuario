@@ -1,4 +1,4 @@
-import MenuLateral from "./components/menu-latera";
+import MenuLateral from "./components/menuLateral";
 
 export default function Home() {
   return (

@@ -4,6 +4,19 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --backgroundLight: #FAFAFA;
+  --backgroundDark: #111111;
+  --secondary: #824EEC;
+  --primary: #5744E7;
+  --backsecondary10: #DBD8F4;
+  --backsecondary40: #824EEC;
+}
+
+* {
+  box-sizing: border-box;
+}
+
 body {
   font-family: "Roboto", sans-serif;
 }
