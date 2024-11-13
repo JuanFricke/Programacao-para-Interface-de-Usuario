@@ -37,3 +37,10 @@ sudo usermod -aG docker $USER
 
 
 ```
+
+# rodar o docker
+
+```bash
+
+docker compose up
+```
