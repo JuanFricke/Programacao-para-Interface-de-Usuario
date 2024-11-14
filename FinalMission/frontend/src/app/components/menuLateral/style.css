@@ -1,4 +1,4 @@
-@import url('../../globals.css');
+@import url('@/globals.css');
 
 .menu-lateral {
     background-color: var(--backsecondary10);
@@ -20,7 +20,7 @@
 }
 
 .link-ativo {
-    background-color: #fff;
+    background-color: var(--backgroundLight);
 }
 
 .link-nav {
@@ -35,7 +35,7 @@
 }
 
 .link-nav:hover {
-    background-color: #fff;
+    background-color: var(--backgroundLight);
 }
 
 .conta-user a {

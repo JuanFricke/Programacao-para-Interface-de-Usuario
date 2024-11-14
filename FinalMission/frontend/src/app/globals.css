@@ -20,4 +20,10 @@
 
 body {
   font-family: "Roboto", sans-serif;
+  background-color: var(--backgroundLight);
+}
+
+.container-principal {
+  display: flex;
+  flex-direction: row;
 }

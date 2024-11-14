@@ -15,7 +15,7 @@ export default function MenuLateral() {
                 </Link>
             </div>
             <div className="nav-item">
-                <Link href='/' className={`${pathname === '/' ? 'link-ativo' : ''} link-nav`}>
+                <Link href='/painel' className={`${pathname === '/' ? 'link-ativo' : ''} link-nav`}>
                     <Image src="/home.png" alt="Início" className="icon-nav" width={20} height={20} />
                 </Link>
                 <Link href='/projeto' className={`${pathname === '/projeto' ? 'link-ativo' : ''} link-nav`}>
