@@ -1,0 +1,14 @@
+.input {
+  display: flex;
+  flex-direction: column;
+}
+
+.input-label {
+  margin-top: 10px;
+  width: 360px;
+  height: 50px;
+  border-radius: 10px;
+  background-color: var(--brackgroundGray);
+  border: 1px solid var(--backsecondary40);
+  padding: 5px 10px;
+}
