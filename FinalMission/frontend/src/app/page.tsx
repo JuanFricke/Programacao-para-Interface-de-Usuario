@@ -9,7 +9,7 @@ export const Home: React.FC<HomeProps> = ({ children }) => {
   return (
     <div className="container-principal">
       <MenuLateral />
-      <main>
+      <main className='container-pages'>
         {children}
       </main>
     </div>

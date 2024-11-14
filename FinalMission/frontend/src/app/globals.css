@@ -14,10 +14,6 @@
   --backsecondary40: #824EEC;
 }
 
-* {
-  box-sizing: border-box;
-}
-
 body {
   font-family: "Roboto", sans-serif;
   background-color: var(--backgroundLight);
@@ -50,8 +46,6 @@ body {
     width: 80%;
   }
 }
-
-
 
 .btn-retorno {
   margin: 0;
@@ -115,4 +109,9 @@ body {
   position: relative;
   width: 15px;
   transition-delay: 0.2s;
+}
+
+.container-pages {
+  width: 92%;
+  padding: 40px;
 }
