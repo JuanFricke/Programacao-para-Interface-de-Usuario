@@ -1,0 +1,10 @@
+.header-projeto {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.titulo-pagina {
+    font-size: 1.8em;
+    font-family: "Ovo", serif;
+}
