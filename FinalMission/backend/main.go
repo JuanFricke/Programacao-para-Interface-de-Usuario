@@ -16,6 +16,6 @@ func main() {
     router.HandleFunc("/api/books/{id}", updateBook).Methods("PUT")
     router.HandleFunc("/api/books/{id}", deleteBook).Methods("DELETE")
 
-    log.Println("Server starting on :8000")
-    log.Fatal(http.ListenAndServe(":8000", router))
+    log.Println("Server starting on :5000")
+    log.Fatal(http.ListenAndServe(":5000", router))
 }

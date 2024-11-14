@@ -13,8 +13,11 @@ RUN go mod download
 # Copy the entire project into the working directory
 COPY . .
 
+# Build the Go app (output will be an executable named "app")
+RUN go build -o app .
+
 # Expose the application port
 EXPOSE 8000
 
 # Run the executable
-CMD ["go run ."]
+CMD ["./app"]
