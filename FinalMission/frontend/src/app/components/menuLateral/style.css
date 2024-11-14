@@ -2,7 +2,7 @@
 
 .menu-lateral {
     background-color: var(--backsecondary10);
-    width: 110px;
+    width: 8%;
     height: 100vh;
     padding: 30px 0;
 }
@@ -17,6 +17,10 @@
     align-items: center;
     width: 100%;
     gap: 45px;
+}
+
+.link-ativo {
+    background-color: #fff;
 }
 
 .link-nav {
