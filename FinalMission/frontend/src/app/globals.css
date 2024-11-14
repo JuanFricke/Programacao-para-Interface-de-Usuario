@@ -27,3 +27,92 @@ body {
   display: flex;
   flex-direction: row;
 }
+
+.pagina-erro {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+.img-error-page {
+  width: 20em;
+}
+
+.mensagem-erro {
+  text-align: center;
+  width: 30%;
+}
+
+@media (max-width: 768px) {
+  .mensagem-erro {
+    width: 80%;
+  }
+}
+
+
+
+.btn-retorno {
+  margin: 0;
+  margin-top: 20px;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: "Ovo", serif;
+  font-weight: 600;
+  font-size: 20px;
+}
+
+.btn-retorno p {
+  margin: 0;
+  position: relative;
+  font-size: 20px;
+  color: #000;
+}
+
+.btn-retorno::after {
+  position: absolute;
+  content: "";
+  width: 0;
+  left: 0;
+  bottom: -7px;
+  background: var(--primary);
+  height: 2px;
+  transition: 0.3s ease-out;
+}
+
+.btn-retorno p::before {
+  position: absolute;
+  content: "Ir para o Painel";
+  width: 0%;
+  inset: 0;
+  color: var(--primary);
+  overflow: hidden;
+  transition: 0.3s ease-out;
+}
+
+.btn-retorno:hover::after {
+  width: 100%;
+}
+
+.btn-retorno:hover p::before {
+  width: 100%;
+}
+
+.btn-retorno:hover svg {
+  transform: translateX(4px);
+  color: var(--primary);
+}
+
+.btn-retorno svg {
+  color: #000;
+  transition: 0.2s;
+  position: relative;
+  width: 15px;
+  transition-delay: 0.2s;
+}

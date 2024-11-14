@@ -4,7 +4,7 @@ import Image from "next/image";
 import { usePathname } from 'next/navigation'
 import "./style.css";
  
-export default function MenuLateral() {
+export function MenuLateral() {
     const pathname = usePathname();
 
     return (
@@ -15,7 +15,7 @@ export default function MenuLateral() {
                 </Link>
             </div>
             <div className="nav-item">
-                <Link href='/painel' className={`${pathname === '/' ? 'link-ativo' : ''} link-nav`}>
+                <Link href='/painel' className={`${pathname === '/painel' ? 'link-ativo' : ''} link-nav`}>
                     <Image src="/home.png" alt="Início" className="icon-nav" width={20} height={20} />
                 </Link>
                 <Link href='/projeto' className={`${pathname === '/projeto' ? 'link-ativo' : ''} link-nav`}>

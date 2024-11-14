@@ -1,7 +1,17 @@
-import MenuLateral from "./components/menuLateral";
+import React from 'react'
+import { MenuLateral } from "./components/menuLateral";
 
-export default function Home() {
+interface HomeProps {
+  children: React.ReactNode;
+}
+
+export const Home: React.FC<HomeProps> = ({ children }) => {
   return (
-    <MenuLateral />
+    <div className="container-principal">
+      <MenuLateral />
+      <main>
+        {children}
+      </main>
+    </div>
   );
 }
