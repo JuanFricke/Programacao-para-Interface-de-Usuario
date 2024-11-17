@@ -4,6 +4,8 @@
     background-color: var(--backsecondary10);
     height: 100vh;
     padding: 30px 0;
+    position: fixed;
+    width: 8%;
 }
 
 .nav-item {

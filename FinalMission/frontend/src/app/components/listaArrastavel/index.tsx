@@ -1,7 +1,20 @@
-"use client"
+"use client";
+
 import React, { useState } from 'react';
-import { SortableContainer, SortableElement } from 'react-sortable-hoc';
-import arrayMove from 'array-move';
+import {
+  DndContext,
+  closestCenter,
+  useSensor,
+  useSensors,
+  PointerSensor,
+} from '@dnd-kit/core';
+import {
+  arrayMove,
+  SortableContext,
+  verticalListSortingStrategy,
+} from '@dnd-kit/sortable';
+import { ItemLista } from '../itemLista';
+import "./style.css";
 
 interface Atividade {
   id: string;
@@ -10,61 +23,104 @@ interface Atividade {
   cor_projeto: string;
 }
 
-interface PropsItem {
-  listas: Atividade[];
+interface Columns {
+  [key: string]: Atividade[];
 }
 
-// Tipagem para os itens
-type Item = string;
+interface PropsItem {
+  listas: Columns[];
+}
 
-// Componente de item individual
-const SortableItem = SortableElement(({ value }: { value: Item }) => (
-  <div className="item">{value}</div>
-));
+function SortableItem({ id, titulo_atividade, cor_projeto, desc_atividade }: Atividade) {
+  return (
+    <ItemLista
+      id={id}
+      titulo_atividade={titulo_atividade}
+      desc_atividade={desc_atividade}
+      cor_projeto={cor_projeto} />
+  );
+}
 
-// Componente da lista de itens
-const SortableList = SortableContainer(({ items }: { items: Item[] }) => (
-  <div className="list">
-    {items.map((value, index) => (
-      <SortableItem key={`item-${index}`} index={index} value={value} />
-    ))}
-  </div>
-));
+function ListaArrastavel({ listas }: PropsItem) {
+  const [columns, setColumns] = useState<Columns>(listas[0]);
 
-const ListaArrastavel: React.FC = () => {
-  // Estado das colunas
-  const [column1Items, setColumn1Items] = useState<Item[]>(['Item 1', 'Item 2', 'Item 3']);
-  const [column2Items, setColumn2Items] = useState<Item[]>(['Item A', 'Item B', 'Item C']);
+  const sensors = useSensors(
+    useSensor(PointerSensor, {
+      activationConstraint: {
+        distance: 5,
+      },
+    })
+  );
 
-  // Função chamada quando a ordem dos itens mudar
-  const onSortEnd = ({ oldIndex, newIndex }: { oldIndex: number; newIndex: number }, column: 1 | 2) => {
-    if (column === 1) {
-      setColumn1Items(arrayMove(column1Items, oldIndex, newIndex));
-    } else if (column === 2) {
-      setColumn2Items(arrayMove(column2Items, oldIndex, newIndex));
+  const handleDragEnd = (event: any) => {
+    const { active, over } = event;
+    if (!over) return;
+
+    const activeColumn = findColumnByItem(active.id);
+    const overColumn = findColumnByItem(over.id);
+
+    if (!activeColumn || !overColumn) return;
+    if (activeColumn !== overColumn) {
+
+      setColumns((prevColumns) => {
+        const activeItems = [...prevColumns[activeColumn]];
+        const overItems = [...prevColumns[overColumn]];
+
+        const itemIndex = activeItems.findIndex((item) => item.id === active.id);
+        const [movedItem] = activeItems.splice(itemIndex, 1);
+        overItems.splice(overItems.findIndex((item) => item.id === over.id), 0, movedItem);
+
+        return {
+          ...prevColumns,
+          [activeColumn]: activeItems,
+          [overColumn]: overItems,
+        };
+      });
+    } else {
+
+      setColumns((prevColumns) => {
+        const items = [...prevColumns[activeColumn]];
+        const oldIndex = items.findIndex((item) => item.id === active.id);
+        const newIndex = items.findIndex((item) => item.id === over.id);
+        return {
+          ...prevColumns,
+          [activeColumn]: arrayMove(items, oldIndex, newIndex),
+        };
+      });
     }
   };
 
+
+  const findColumnByItem = (itemId: string): keyof Columns | null => {
+    const column = Object.keys(columns).find((column) =>
+      columns[column as keyof Columns].some((item: Atividade) => item.id === itemId)
+    );
+    return column ? (column as keyof Columns) : null;
+  };
+
   return (
-    <div className="app">
-      <div className="column">
-        <h3>Coluna 1</h3>
-        <SortableList
-          items={column1Items}
-          onSortEnd={(args) => onSortEnd(args, 1)}
-          axis="y"
-        />
+    <DndContext
+      sensors={sensors}
+      collisionDetection={closestCenter}
+      onDragEnd={handleDragEnd}
+    >
+      <div style={{ display: 'flex', gap: '16px' }}>
+        {Object.keys(columns).map((columnId) => (
+          <div key={columnId} style={{ flex: 1, padding: '8px' }}>
+            <h3 className='titulo-coluna'>{columnId}</h3>
+            <SortableContext
+              items={columns[columnId as keyof Columns]}
+              strategy={verticalListSortingStrategy}
+            >
+              {columns[columnId as keyof Columns].map((item: Atividade) => (
+                <SortableItem key={item.id} {...item} />
+              ))}
+            </SortableContext>
+          </div>
+        ))}
       </div>
-      <div className="column">
-        <h3>Coluna 2</h3>
-        <SortableList
-          items={column2Items}
-          onSortEnd={(args) => onSortEnd(args, 2)}
-          axis="y"
-        />
-      </div>
-    </div>
+    </DndContext>
   );
-};
+}
 
 export default ListaArrastavel;

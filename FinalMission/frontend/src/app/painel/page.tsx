@@ -9,24 +9,44 @@ interface PropsProjeto {
 }
 
 const Projetos: React.FC<PropsProjeto> = ({ nome_user = 'usuário', }) => {
-    const teste = [
-        {
-            id: '123',
-            titulo_atividade: 'Atividade 1',
-            desc_atividade: 'Projeto 1',
-            cor_projeto: '#9b51e0',
-        }, {
-            id: '456',
-            titulo_atividade: 'Atividade 2',
-            desc_atividade: 'Projeto 2',
-            cor_projeto: '#56ccf2',
-        }, {
-            id: '789',
-            titulo_atividade: 'Atividade 7',
-            desc_atividade: 'Projeto 2',
-            cor_projeto: '#56ccf2',
-        }
-    ]
+    const teste = [{
+        coluna1: [
+            {
+                id: '123',
+                titulo_atividade: 'Atividade 1',
+                desc_atividade: 'Projeto 1',
+                cor_projeto: '#9b51e0',
+            }, {
+                id: '456',
+                titulo_atividade: 'Atividade 2',
+                desc_atividade: 'Projeto 2',
+                cor_projeto: '#56ccf2',
+            }, {
+                id: '789',
+                titulo_atividade: 'Atividade 7',
+                desc_atividade: 'Projeto 2',
+                cor_projeto: '#56ccf2',
+            }
+        ],
+        coluna2: [
+            {
+                id: '101',
+                titulo_atividade: 'Atividade 7',
+                desc_atividade: 'Projeto 1',
+                cor_projeto: '#9b51e0',
+            }, {
+                id: '112',
+                titulo_atividade: 'Atividade 8',
+                desc_atividade: 'Projeto 2',
+                cor_projeto: '#56ccf2',
+            }, {
+                id: '131',
+                titulo_atividade: 'Atividade 9',
+                desc_atividade: 'Projeto 2',
+                cor_projeto: '#56ccf2',
+            }
+        ]
+    }]
     return (
         <Home>
             <div className="header-projeto">
