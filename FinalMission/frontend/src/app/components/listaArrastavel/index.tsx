@@ -124,6 +124,9 @@ function ListaArrastavel({ listas }: PropsItem) {
               {columns[columnId as keyof Columns].map((item: Atividade) => (
                 <SortableItem key={item.id} {...item} />
               ))}
+              <button className='nova-ativ-item' onClick={criarNovaAtiv}>
+                Criar uma nova atividade
+              </button>
             </SortableContext>
           </div>
         ))}

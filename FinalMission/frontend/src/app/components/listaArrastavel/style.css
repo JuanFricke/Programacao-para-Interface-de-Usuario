@@ -65,3 +65,9 @@
 .container-disabled .titulo-atividade, .container-disabled .descricao-atividade {
     color: #828282 !important;
 }
+
+.nova-ativ-item {
+    text-align: center;
+    width: 100%;
+    outline: none;
+}
