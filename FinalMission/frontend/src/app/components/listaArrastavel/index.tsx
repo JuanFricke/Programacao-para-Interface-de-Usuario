@@ -15,12 +15,14 @@ import {
 } from '@dnd-kit/sortable';
 import { ItemLista } from '../itemLista';
 import "./style.css";
+import Image from 'next/image';
 
 interface Atividade {
   id: string;
   titulo_atividade: string;
   desc_atividade: string;
   cor_projeto: string;
+  feito: boolean;
 }
 
 interface Columns {
@@ -31,13 +33,14 @@ interface PropsItem {
   listas: Columns[];
 }
 
-function SortableItem({ id, titulo_atividade, cor_projeto, desc_atividade }: Atividade) {
+function SortableItem({ id, titulo_atividade, cor_projeto, desc_atividade, feito }: Atividade) {
   return (
     <ItemLista
       id={id}
       titulo_atividade={titulo_atividade}
       desc_atividade={desc_atividade}
-      cor_projeto={cor_projeto} />
+      cor_projeto={cor_projeto}
+      feito={feito} />
   );
 }
 
@@ -61,7 +64,6 @@ function ListaArrastavel({ listas }: PropsItem) {
 
     if (!activeColumn || !overColumn) return;
     if (activeColumn !== overColumn) {
-
       setColumns((prevColumns) => {
         const activeItems = [...prevColumns[activeColumn]];
         const overItems = [...prevColumns[overColumn]];
@@ -77,7 +79,6 @@ function ListaArrastavel({ listas }: PropsItem) {
         };
       });
     } else {
-
       setColumns((prevColumns) => {
         const items = [...prevColumns[activeColumn]];
         const oldIndex = items.findIndex((item) => item.id === active.id);
@@ -90,13 +91,16 @@ function ListaArrastavel({ listas }: PropsItem) {
     }
   };
 
-
   const findColumnByItem = (itemId: string): keyof Columns | null => {
     const column = Object.keys(columns).find((column) =>
       columns[column as keyof Columns].some((item: Atividade) => item.id === itemId)
     );
     return column ? (column as keyof Columns) : null;
   };
+
+  const criarNovaAtiv = () => {
+    console.log('Click nova atividade');
+  }
 
   return (
     <DndContext
@@ -106,8 +110,13 @@ function ListaArrastavel({ listas }: PropsItem) {
     >
       <div style={{ display: 'flex', gap: '16px' }}>
         {Object.keys(columns).map((columnId) => (
-          <div key={columnId} style={{ flex: 1, padding: '8px' }}>
-            <h3 className='titulo-coluna'>{columnId}</h3>
+          <div key={columnId} className='coluna-itens'>
+            <div className="container-titulo">
+              <h3 className='titulo-coluna'>{columnId}</h3>
+              <button className="btn-nova-atv" title='Criar nova atividade' onClick={criarNovaAtiv}>
+                <Image src="/plus.png" alt="Nova atividade" className="icon-nova-ativ" width={20} height={20} />
+              </button>
+            </div>
             <SortableContext
               items={columns[columnId as keyof Columns]}
               strategy={verticalListSortingStrategy}

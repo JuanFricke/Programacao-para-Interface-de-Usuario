@@ -29,3 +29,39 @@
 .titulo-coluna {
     font-size: 1.4em;
 }
+
+.coluna-itens {
+    width: 30%;
+    max-width: 400px;
+    min-width: 100px;
+    padding: 8px;
+    flex: 1;
+}
+
+.container-titulo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px
+}
+
+.icon-nova-ativ {
+    width: 20px;
+    height: 20px;
+}
+
+.btn-nova-atv {
+    outline: none;
+}
+
+.btn-nova-atv:hover {
+    filter: drop-shadow(5px 4px 2px rgba(0, 0, 0, 0.5));
+}
+
+.container-disabled {
+    background-color: #E0E0E0;
+}
+
+.container-disabled .titulo-atividade, .container-disabled .descricao-atividade {
+    color: #828282 !important;
+}

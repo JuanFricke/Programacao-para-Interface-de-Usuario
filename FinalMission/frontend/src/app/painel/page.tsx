@@ -16,16 +16,19 @@ const Projetos: React.FC<PropsProjeto> = ({ nome_user = 'usuário', }) => {
                 titulo_atividade: 'Atividade 1',
                 desc_atividade: 'Projeto 1',
                 cor_projeto: '#9b51e0',
+                feito: false
             }, {
                 id: '456',
                 titulo_atividade: 'Atividade 2',
                 desc_atividade: 'Projeto 2',
                 cor_projeto: '#56ccf2',
+                feito: false
             }, {
                 id: '789',
                 titulo_atividade: 'Atividade 7',
                 desc_atividade: 'Projeto 2',
                 cor_projeto: '#56ccf2',
+                feito: false
             }
         ],
         coluna2: [
@@ -34,16 +37,19 @@ const Projetos: React.FC<PropsProjeto> = ({ nome_user = 'usuário', }) => {
                 titulo_atividade: 'Atividade 7',
                 desc_atividade: 'Projeto 1',
                 cor_projeto: '#9b51e0',
+                feito: true
             }, {
                 id: '112',
                 titulo_atividade: 'Atividade 8',
                 desc_atividade: 'Projeto 2',
                 cor_projeto: '#56ccf2',
+                feito: true
             }, {
                 id: '131',
                 titulo_atividade: 'Atividade 9',
                 desc_atividade: 'Projeto 2',
                 cor_projeto: '#56ccf2',
+                feito: true
             }
         ]
     }]
