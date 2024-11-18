@@ -1,0 +1,63 @@
+@import url('@/globals.css');
+
+.container-projeto {
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-shadow: 1px 4px 2px 1px rgba(0,0,0,0.1);
+    margin-bottom: 10px;
+    width: 250px;
+}
+
+.titulo-projeto {
+    margin-bottom: 13px;
+    font-size: 1.3em;
+    font-family: "Ovo", serif;
+}
+
+.desc-projeto {
+    font-size: .8em; 
+    margin-bottom: 50px;
+}
+
+.identificador-atividade {
+    width: 25px;
+    height: 25px;
+    border-radius: 10px;
+}
+
+.cabecalho-projeto {
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 50px;
+}
+
+.container-atividades {
+    display: flex;
+    flex-direction: row;
+    gap: 30px;
+}
+
+.container-porcent {
+    position: relative;
+}
+
+.barra-porcent {
+    height: 10px;
+    border-radius: 100px;
+    position: absolute;
+}
+
+.fundo-porcent {
+    width: 100%;
+    background-color: var(--backsecondary10);
+}
+
+.porcent-progress {
+    background-color: var(--secondary);
+}
