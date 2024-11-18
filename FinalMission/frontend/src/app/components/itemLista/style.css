@@ -9,6 +9,7 @@
     box-shadow: 1px 4px 2px 1px rgba(0,0,0,0.1);
     margin-bottom: 10px;
     cursor: grab;
+    position: relative;
 }
 
 .titulo-atividade {
@@ -26,4 +27,11 @@
     width: 25px;
     height: 25px;
     border-radius: 10px;
+}
+
+.placeholder-item {
+    height: 120px;
+    background-color: #f0f0f0;
+    border: 2px dashed #ccc;
+    margin: 8px 0;
 }
