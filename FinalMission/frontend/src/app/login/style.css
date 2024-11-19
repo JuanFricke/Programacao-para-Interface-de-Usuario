@@ -8,6 +8,9 @@
     var(--secondary, 1)
   );
   background-repeat: no-repeat;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .image-pastas {

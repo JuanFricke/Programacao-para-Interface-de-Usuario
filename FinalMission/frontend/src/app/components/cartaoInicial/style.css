@@ -1,0 +1,10 @@
+.container-cartao {
+  background-color: var(--backgroundLight);
+  padding: 80px;
+  border-radius: 50px;
+  height: auto;
+  width: auto;
+  text-align: center;
+  font-family: "Ovo", "Roboto", sans-serif;
+  font-size: 24px;
+}
