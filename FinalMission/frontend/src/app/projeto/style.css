@@ -42,22 +42,3 @@
     flex-direction: row;
     gap: 30px;
 }
-
-.container-porcent {
-    position: relative;
-}
-
-.barra-porcent {
-    height: 10px;
-    border-radius: 100px;
-    position: absolute;
-}
-
-.fundo-porcent {
-    width: 100%;
-    background-color: var(--backsecondary10);
-}
-
-.porcent-progress {
-    background-color: var(--secondary);
-}

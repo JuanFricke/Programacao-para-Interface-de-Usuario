@@ -1,0 +1,28 @@
+@import url('@/globals.css');
+
+.projeto-titulo {
+    margin-bottom: 13px;
+    font-size: 2.3em;
+    font-family: "Ovo", serif;
+}
+
+.projeto-descricao {
+    margin-bottom: 13px;
+    font-size: .8em;
+}
+
+.projeto-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.identificador-atividade {
+    width: 25px;
+    height: 25px;
+    border-radius: 10px;
+}
+
+.projeto-cabecalho {
+    margin-bottom: 30px;
+}

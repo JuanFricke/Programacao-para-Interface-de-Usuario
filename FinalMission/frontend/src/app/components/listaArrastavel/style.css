@@ -1,14 +1,5 @@
 @import url('@/globals.css');
 
-.container-item {
-    background-color: #fff;
-    border-radius: 10px;
-    padding: 20px;
-    display: flex;
-    justify-content: space-between;
-    box-shadow: 1px 4px 2px 1px rgba(0,0,0,0.1);
-}
-
 .titulo-atividade {
     margin-bottom: 13px;
     font-size: 1.3em;
