@@ -1,0 +1,17 @@
+.container-principal {
+  height: 100vh;
+  width: 100%;
+  background-color: black;
+  background: radial-gradient(
+    circle at center,
+    var(--brackgroundGray, 0.5),
+    var(--secondary, 1)
+  );
+  background-repeat: no-repeat;
+}
+
+.image-pastas {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+}
