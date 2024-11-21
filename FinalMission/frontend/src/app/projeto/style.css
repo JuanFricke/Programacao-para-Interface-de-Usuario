@@ -9,7 +9,7 @@
     justify-content: space-between;
     box-shadow: 1px 4px 2px 1px rgba(0,0,0,0.1);
     margin-bottom: 10px;
-    width: 250px;
+    width: 100%;
 }
 
 .titulo-projeto {
@@ -38,7 +38,25 @@
 }
 
 .container-atividades {
-    display: flex;
-    flex-direction: row;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
     gap: 30px;
+}
+
+@media (max-width: 1440px) {
+    .container-atividades {
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .container-atividades {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (max-width: 500px) {
+    .container-atividades {
+        grid-template-columns: 1fr;
+    }
 }

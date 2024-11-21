@@ -174,7 +174,7 @@ function ListaArrastavel({ listas }: PropsItem) {
       onDragEnd={handleDragEnd}
       onDragCancel={handleDragCancel}
     >
-      <div style={{ display: 'flex', gap: '16px' }}>
+      <div className='container-listas'>
         {Object.keys(columns).map((columnId) => (
           <div key={columnId} className="coluna-itens">
             <div className="container-titulo">
