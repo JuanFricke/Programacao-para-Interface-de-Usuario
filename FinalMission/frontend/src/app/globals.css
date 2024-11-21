@@ -116,3 +116,11 @@ body {
   padding: 40px;
   margin-left: 8%
 }
+
+.btn {
+  width: 100%;
+  background-color: var(--backgroundLight);
+  color: var(--backgroundDark);
+  font-size: 1rem;
+  font-family: "Roboto", sans-serif;
+}

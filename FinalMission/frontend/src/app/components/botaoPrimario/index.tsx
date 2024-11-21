@@ -8,7 +8,7 @@ interface BotaoPrimarioProps {
 export default function BotaoPrimario({ textButton, className }: BotaoPrimarioProps) {
     return (
         <div className="container-botao">
-            <button className={className} >{textButton}</button>
+            <button className={`btn ${className}`} >{textButton}</button>
         </div>
     );
 }

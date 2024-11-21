@@ -51,6 +51,27 @@ const Projetos: React.FC<PropsProjeto> = ({ nome_user = 'usuário', }) => {
                 cor_projeto: '#56ccf2',
                 feito: true
             }
+        ],
+        coluna3: [
+            {
+                id: '141',
+                titulo_atividade: 'Atividade 7',
+                desc_atividade: 'Projeto 1',
+                cor_projeto: '#9b51e0',
+                feito: true
+            }, {
+                id: '151',
+                titulo_atividade: 'Atividade 8',
+                desc_atividade: 'Projeto 2',
+                cor_projeto: '#56ccf2',
+                feito: true
+            }, {
+                id: '161',
+                titulo_atividade: 'Atividade 9',
+                desc_atividade: 'Projeto 2',
+                cor_projeto: '#56ccf2',
+                feito: true
+            }
         ]
     }]
     return (

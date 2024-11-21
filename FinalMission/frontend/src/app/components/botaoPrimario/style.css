@@ -1,24 +1,42 @@
+.container-botao {
+  width: 100%;
+  margin-top: 10px;
+}
+
 .botaoLogIn {
-  height: 53px;
-  width: 360px;
+  padding: 10px;
   background-color: var(--primary);
   color: var(--backgroundLight);
-  font-size: 20px;
   font-family: "Roboto", sans-serif;
   margin-top: 20px;
   border-radius: 10px;
 }
 
 .botaoLogIn:hover {
-  background-color: var(--secondary);
+  background-color: #3221b9;
 }
 
 .botaoSignUp {
-  height: 53px;
-  width: 360px;
-  background-color: var(--backgroundLight);
-  color: var(--backgroundDark);
-  font-size: 20px;
-  font-family: "Roboto", sans-serif;
-  margin-top: 10px;
+  width: auto;
+  position: relative;
+  color: #000;
+  padding: 0 8px;
+}
+
+.botaoSignUp:after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  transform: scaleX(0);
+  height: 2px;
+  bottom: 0;
+  left: 0;
+  background-color: #000000;
+  transform-origin: bottom right;
+  transition: transform 0.25s ease-out;
+}
+
+.botaoSignUp:hover:after {
+  transform: scaleX(1);
+  transform-origin: bottom left;
 }

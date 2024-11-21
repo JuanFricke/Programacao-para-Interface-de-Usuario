@@ -5,12 +5,13 @@
   text-align: start;
   font-family: 'Roboto', sans-serif;
   margin-top: 20px;
+  width: 100%;
 }
 
 .input-label {
   margin-top: 10px;
-  width: 360px;
-  height: 50px;
+  width: 100%;
+  height: 40px;
   border-radius: 10px;
   background-color: var(--brackgroundGray);
   border: 1px solid var(--backsecondary40);
