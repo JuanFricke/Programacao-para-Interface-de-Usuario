@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from 'react';
-import { Home } from '@/page';
+import { Home } from '@/layout-page';
 import './style.css';
 import Image from 'next/image';
 

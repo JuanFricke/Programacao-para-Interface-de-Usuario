@@ -1,35 +1,33 @@
-"use client";
+// app/page.tsx
+'use client'
 
-import React, { useEffect } from 'react'
-import { useRouter } from 'next/navigation'
-import { usePathname } from 'next/navigation'
+import { useEffect } from 'react';
+import { usePathname, useRouter } from 'next/navigation';
+import Image from 'next/image';
 import { isAuthenticated } from '@/utilsauth';
-import { MenuLateral } from "@/components/menuLateral";
 
-interface HomeProps {
-  children: React.ReactNode;
-}
-
-export const Home: React.FC<HomeProps> = ({ children }) => {
-  const router = useRouter()
+const Page = () => {
   const pathname = usePathname();
+  const router = useRouter();
 
   useEffect(() => {
-    if (!!isAuthenticated()) {
-      router.push("/login");
-    } else {
+    if (isAuthenticated()) {
       if (pathname.startsWith('/')) {
         router.push("/painel");
       }
+    } else {
+      router.push("/login");
     }
   }, [router]);
-  
+
   return (
-    <div className="container-principal">
-      <MenuLateral />
-      <main className='container-pages'>
-        {children}
-      </main>
+    <div className="pagina-erro">
+      <Image src="/logo.png" alt="Falha ao encontrar a página" className="img-error-page" width={500} height={500} />
+      <p className="mensagem-erro">
+        Carregando...
+      </p>
     </div>
   );
-}
+};
+
+export default Page;

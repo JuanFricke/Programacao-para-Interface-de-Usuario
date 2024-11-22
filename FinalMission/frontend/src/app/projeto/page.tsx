@@ -1,9 +1,7 @@
-"use client";
 
-import React from 'react';
-import { Home } from '@/page';
 import './style.css';
 import Link from 'next/link';
+import { Home } from '@/layout-page';
 import { BarraPorcentagem } from '@/components/barraPorcentage';
 
 interface PropsProjeto {

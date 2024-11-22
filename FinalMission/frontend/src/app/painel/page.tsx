@@ -1,5 +1,5 @@
 import React from 'react'
-import { Home } from '@/page';
+import { Home } from '@/layout-page';
 import ListaArrastavel from '@/components/listaArrastavel';
 import "./style.css";
 import { SemDados } from '@/components/semDados';

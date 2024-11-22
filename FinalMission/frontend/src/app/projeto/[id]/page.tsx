@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { BarraPorcentagem } from '@/components/barraPorcentage';
-import { Home } from '@/page';
+import { Home } from '@/layout-page';
 import './style.css';
 import ListaArrastavel from '@/components/listaArrastavel';
 import { Pomodoro } from '@/components/pomodoro';
