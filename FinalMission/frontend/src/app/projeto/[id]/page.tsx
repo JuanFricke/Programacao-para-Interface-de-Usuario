@@ -6,6 +6,7 @@ import { BarraPorcentagem } from '@/components/barraPorcentage';
 import { Home } from '@/page';
 import './style.css';
 import ListaArrastavel from '@/components/listaArrastavel';
+import { Pomodoro } from '@/components/pomodoro';
 
 const ProjetoDetalhes: React.FC = () => {
     const router = useRouter();
@@ -40,6 +41,7 @@ const ProjetoDetalhes: React.FC = () => {
             <div className="container-lista">
                 <ListaArrastavel listas={projeto.projetos} />
             </div>
+            <Pomodoro />
         </Home>
     );
 };

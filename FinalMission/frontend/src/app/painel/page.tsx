@@ -3,7 +3,6 @@ import { Home } from '@/page';
 import ListaArrastavel from '@/components/listaArrastavel';
 import "./style.css";
 
-
 interface PropsProjeto {
     nome_user?: string
 }
