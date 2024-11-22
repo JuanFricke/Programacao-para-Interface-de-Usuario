@@ -15,11 +15,12 @@ export const Home: React.FC<HomeProps> = ({ children }) => {
   const pathname = usePathname();
 
   useEffect(() => {
-    if (!isAuthenticated()) {
+    if (!!isAuthenticated()) {
       router.push("/login");
     } else {
-      if (pathname.startsWith('/'))
+      if (pathname.startsWith('/')) {
         router.push("/painel");
+      }
     }
   }, [router]);
   

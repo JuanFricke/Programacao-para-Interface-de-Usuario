@@ -13,3 +13,7 @@
   flex-direction: column;
   z-index: 1;
 }
+
+.form {
+  width: 100%;
+}

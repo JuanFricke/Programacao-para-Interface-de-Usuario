@@ -22,3 +22,11 @@
   bottom: 0;
   left: 0;
 }
+
+.msg-erro {
+  margin-top: 8px;
+  color: #b51b1b;
+  font-size: .8rem;
+  font-family: "Roboto", sans-serif;
+  text-align: end;
+}
