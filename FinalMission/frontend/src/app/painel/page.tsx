@@ -2,13 +2,14 @@ import React from 'react'
 import { Home } from '@/page';
 import ListaArrastavel from '@/components/listaArrastavel';
 import "./style.css";
+import { SemDados } from '@/components/semDados';
 
 interface PropsProjeto {
     nome_user?: string
 }
 
 const Projetos: React.FC<PropsProjeto> = ({ nome_user = 'usuário', }) => {
-    const teste = [{
+    const listaAtividades = [{
         coluna1: [
             {
                 id: '123',
@@ -73,14 +74,19 @@ const Projetos: React.FC<PropsProjeto> = ({ nome_user = 'usuário', }) => {
             }
         ]
     }]
+
     return (
         <Home>
             <div className="header-projeto">
                 <p className='titulo-pagina'>Olá, {nome_user}</p>
             </div>
-            <div className="container-lista">
-                <ListaArrastavel listas={teste} />
-            </div>
+            {listaAtividades ? 
+                <div className="container-lista">
+                    <ListaArrastavel listas={listaAtividades} />
+                </div>
+            :
+                <SemDados />
+            }
         </Home>
     )
 }
