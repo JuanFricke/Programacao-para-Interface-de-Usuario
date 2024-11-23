@@ -2,66 +2,101 @@
 package main
 
 import (
-    "encoding/json"
-    "net/http"
-    "github.com/gorilla/mux"
+	"encoding/json"
+	"io"
+	"net/http"
+
+	"github.com/gorilla/mux"
 )
 
-func getBooks(w http.ResponseWriter, r *http.Request) {
-    w.Header().Set("Content-Type", "application/json")
-    json.NewEncoder(w).Encode(books)
+func getUserProjects(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodPost {
+		http.Error(w, "Invalid request method", http.StatusMethodNotAllowed)
+		return
+	}
+	body, err := io.ReadAll(r.Body)
+	if err != nil {
+		http.Error(w, "Unable to read request body", http.StatusBadRequest)
+		return
+	}
+	defer r.Body.Close()
+
+	var projectRequest ProjectRequest
+	if err := json.Unmarshal(body, &projectRequest); err != nil {
+		http.Error(w, "Invalid JSON format", http.StatusBadRequest)
+		return
+	}
+
+	// -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+
+	projects := selectProjects(projectRequest.UserID)
+
+	// Respond with the filtered projects
+	w.Header().Set("Content-Type", "application/json")
+	if err := json.NewEncoder(w).Encode(projects); err != nil {
+		http.Error(w, "Error encoding response", http.StatusInternalServerError)
+		return
+	}
 }
 
-func getBook(w http.ResponseWriter, r *http.Request) {
-    w.Header().Set("Content-Type", "application/json")
-    params := mux.Vars(r)
+func getUserTasks(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodPost {
+		http.Error(w, "Invalid request method", http.StatusMethodNotAllowed)
+		return
+	}
+	body, err := io.ReadAll(r.Body)
+	if err != nil {
+		http.Error(w, "Unable to read request body", http.StatusBadRequest)
+		return
+	}
+	defer r.Body.Close()
 
-    for _, item := range books {
-        if item.ID == params["id"] {
-            json.NewEncoder(w).Encode(item)
-            return
-        }
-    }
-    w.WriteHeader(http.StatusNotFound)
-    json.NewEncoder(w).Encode(map[string]string{"error": "Book not found"})
-}
+	var taskRequest TaskRequest
+	if err := json.Unmarshal(body, &taskRequest); err != nil {
+		http.Error(w, "Invalid JSON format", http.StatusBadRequest)
+		return
+	}
 
-func createBook(w http.ResponseWriter, r *http.Request) {
-    w.Header().Set("Content-Type", "application/json")
-    var book Book
-    _ = json.NewDecoder(r.Body).Decode(&book)
-    books = append(books, book)
-    json.NewEncoder(w).Encode(book)
+	// -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+
+	tasks := selectProjects(taskRequest.ProjectID)
+
+	// Respond with the filtered projects
+	w.Header().Set("Content-Type", "application/json")
+	if err := json.NewEncoder(w).Encode(tasks); err != nil {
+		http.Error(w, "Error encoding response", http.StatusInternalServerError)
+		return
+	}
 }
 
 func updateBook(w http.ResponseWriter, r *http.Request) {
-    w.Header().Set("Content-Type", "application/json")
-    params := mux.Vars(r)
-    var updatedBook Book
-    _ = json.NewDecoder(r.Body).Decode(&updatedBook)
+	w.Header().Set("Content-Type", "application/json")
+	params := mux.Vars(r)
+	var updatedBook Book
+	_ = json.NewDecoder(r.Body).Decode(&updatedBook)
 
-    for i, item := range books {
-        if item.ID == params["id"] {
-            books[i] = updatedBook
-            json.NewEncoder(w).Encode(updatedBook)
-            return
-        }
-    }
-    w.WriteHeader(http.StatusNotFound)
-    json.NewEncoder(w).Encode(map[string]string{"error": "Book not found"})
+	for i, item := range books {
+		if item.ID == params["id"] {
+			books[i] = updatedBook
+			json.NewEncoder(w).Encode(updatedBook)
+			return
+		}
+	}
+	w.WriteHeader(http.StatusNotFound)
+	json.NewEncoder(w).Encode(map[string]string{"error": "Book not found"})
 }
 
 func deleteBook(w http.ResponseWriter, r *http.Request) {
-    w.Header().Set("Content-Type", "application/json")
-    params := mux.Vars(r)
+	w.Header().Set("Content-Type", "application/json")
+	params := mux.Vars(r)
 
-    for i, item := range books {
-        if item.ID == params["id"] {
-            books = append(books[:i], books[i+1:]...)
-            json.NewEncoder(w).Encode(map[string]string{"message": "Book deleted"})
-            return
-        }
-    }
-    w.WriteHeader(http.StatusNotFound)
-    json.NewEncoder(w).Encode(map[string]string{"error": "Book not found"})
+	for i, item := range books {
+		if item.ID == params["id"] {
+			books = append(books[:i], books[i+1:]...)
+			json.NewEncoder(w).Encode(map[string]string{"message": "Book deleted"})
+			return
+		}
+	}
+	w.WriteHeader(http.StatusNotFound)
+	json.NewEncoder(w).Encode(map[string]string{"error": "Book not found"})
 }

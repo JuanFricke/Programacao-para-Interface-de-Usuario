@@ -10,11 +10,10 @@ import (
 func main() {
     router := mux.NewRouter()
 
-    router.HandleFunc("/api/livroes/", getBooks).Methods("GET")
-    router.HandleFunc("/api/books/{id}", getBook).Methods("GET")
-    router.HandleFunc("/api/books", createBook).Methods("POST")
-    router.HandleFunc("/api/books/{id}", updateBook).Methods("PUT")
-    router.HandleFunc("/api/books/{id}", deleteBook).Methods("DELETE")
+    // router.HandleFunc("/api/login/", getBooks).Methods("POST")
+    // router.HandleFunc("/api/signup", getBook).Methods("POST")
+    // router.HandleFunc("/api/tasks", createBook).Methods("GET")
+    // router.HandleFunc("/api/projects", updateBook).Methods("GET")
 
     log.Println("Server starting on :5000")
     log.Fatal(http.ListenAndServe(":5000", router))
