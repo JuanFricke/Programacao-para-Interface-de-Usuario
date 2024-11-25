@@ -4,8 +4,8 @@ interface input {
     text: string,
     value: string,
     label: string,
-    type: string,
     setValue: (value: string) => void
+    type?: string,
     required?: boolean
 }
 

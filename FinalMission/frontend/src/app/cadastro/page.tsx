@@ -35,7 +35,7 @@ function Cadastro() {
       const data = await res.json();
       if (res.ok) {
         localStorage.setItem("auth_token", data.token);
-        router.push("/dashboard");
+        router.push("/painel");
       } else {
         setErro(data.message);
       }
