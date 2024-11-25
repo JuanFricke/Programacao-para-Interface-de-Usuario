@@ -17,7 +17,7 @@ export default function Input({ text, value, label, type, setValue, required = f
     return (
         <div className='input'>
             <label htmlFor={label}>{text}</label>
-            <input className="input-label" type={type} id={type} name={type} value={value} onChange={handleChange} required={required} />
+            <input className="input-label" type={type} id={label} name={type} value={value} onChange={handleChange} required={required} />
         </div>
     );
 }
