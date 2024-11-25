@@ -22,15 +22,26 @@ function Login() {
       if (carregando || !email || !senha) {
         return;
       }
-      setCarregando(true)
-      // const account = await authentication.auth({
-      //   email: state.email,
-      //   password: state.password
-      // })
-      // localStorage.setItem('auth_token', account.accessToken)
-        router.push("/painel");
+      setCarregando(true);
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/login`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, senha }),
+      });
+
+      const data = await res.json();
+      if (res.ok) {
+        localStorage.setItem("auth_token", data.token);
+        router.push("/dashboard");
+      } else {
+        setErro(data.message);
+      }
+      setCarregando(false);
     } catch (error) {
-      setErro(error)
+      setErro("Erro ao tentar fazer login.");
+      setCarregando(false);
     }
   }
 
