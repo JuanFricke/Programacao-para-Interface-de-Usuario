@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation'
 import { CardAcesso } from '@/components/cardAcesso';
 import Input from '@/components/input';
 import './style.css';
+import Link from 'next/link';
 
 function Login() {
   const router = useRouter()
@@ -62,7 +63,7 @@ function Login() {
           <p className='msg-erro'>{erro}</p>
         }
         <div className="container-botao">
-          <button className='btn btn-secondary'>Cadastrar</button>
+          <Link href='/cadastro' className='btn btn-secondary'>Cadastrar</Link>
         </div>
       </CardAcesso>
     </main>

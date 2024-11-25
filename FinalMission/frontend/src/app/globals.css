@@ -87,12 +87,19 @@ img {
 
 .btn-retorno p::before {
   position: absolute;
-  content: "Ir para o Painel";
   width: 0%;
   inset: 0;
   color: var(--primary);
   overflow: hidden;
   transition: 0.3s ease-out;
+}
+
+.painel::before {
+  content: "Ir para o Painel";
+}
+
+.login::before {
+  content: "Ir para o Login";
 }
 
 .btn-retorno:hover::after {

@@ -1,3 +1,6 @@
+"use client";
+
+import { isAuthenticated } from '@/utilsauth';
 import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react'
@@ -9,8 +12,8 @@ const NotFound: React.FC = () => {
             <p className="mensagem-erro">
                 Ah, aventureiro... a estrada que você busca leva a um abismo vazio. A página perdida não pode ser encontrada neste reino. Volte e escolha outro caminho!
             </p>
-            <Link href='/painel' className='btn-retorno'>
-                <p>Ir para o Painel</p>
+            <Link href={!isAuthenticated() ? '/login' : '/painel' } className='btn-retorno'>
+                <p className={!isAuthenticated() ? 'login' : 'painel' }>{ !isAuthenticated() ? 'Ir para o Login' : 'Ir para o Painel' }</p>
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
                     className="h-6 w-6"
