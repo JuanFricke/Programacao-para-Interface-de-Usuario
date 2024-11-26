@@ -3,21 +3,14 @@ import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import "./style.css";
 import { useDroppable } from '@dnd-kit/core';
-
-interface PropsItem {
-  titulo_atividade: string;
-  desc_atividade: string;
-  cor_projeto: string;
-  id: string;
-  feito: boolean;
-}
+import { Atividade } from '@/utilsatividades';
 
 interface PropsItemVazio {
   id: string;
   colunaOrigen: string | null;
 }
 
-export const ItemLista: React.FC<PropsItem> = ({ titulo_atividade, desc_atividade, cor_projeto, id, feito }) => {
+export const ItemLista: React.FC<Atividade> = ({ titulo_atividade, nome_projeto, cor_projeto, id }) => {
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id });
 
   let style: React.CSSProperties = {
@@ -30,14 +23,14 @@ export const ItemLista: React.FC<PropsItem> = ({ titulo_atividade, desc_atividad
   return (
     <div
       style={style}
-      className={`container-item ${feito ? 'container-disabled' : ''}`}
+      className="container-item"
       ref={setNodeRef}
       {...attributes}
       {...listeners}
     >
       <div className="info-atividade">
         <div className="titulo-atividade">{titulo_atividade}</div>
-        <div className="descricao-atividade">{desc_atividade}</div>
+        <div className="descricao-atividade">{nome_projeto}</div>
       </div>
       <div className="identificador-atividade" style={{ backgroundColor: cor_projeto }}></div>
     </div>

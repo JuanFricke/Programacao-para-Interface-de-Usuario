@@ -1,9 +1,8 @@
 export interface Atividade {
     id: string;
     titulo_atividade: string;
-    desc_atividade: string;
+    nome_projeto: string;
     cor_projeto: string;
-    feito: boolean;
 }
   
 export interface Coluna {

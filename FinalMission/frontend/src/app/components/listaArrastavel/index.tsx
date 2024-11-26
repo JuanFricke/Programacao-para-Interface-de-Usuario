@@ -27,18 +27,6 @@ interface PropsItem {
   lista: Coluna[];
 }
 
-function SortableItem({ id, titulo_atividade, cor_projeto, desc_atividade, feito }: Atividade) {
-  return (
-    <ItemLista
-      id={id}
-      titulo_atividade={titulo_atividade}
-      desc_atividade={desc_atividade}
-      cor_projeto={cor_projeto}
-      feito={feito}
-    />
-  );
-}
-
 function ListaArrastavel({ lista, tituloLista }: PropsItem) {
   const [listas, setListaAtividades] = useState(lista);
   const [activeItem, setActiveItem] = useState<Atividade | null>(null);
@@ -179,8 +167,8 @@ function ListaArrastavel({ lista, tituloLista }: PropsItem) {
     return column ? column : null;
   };
 
-  const criarNovaAtiv = () => {
-    console.log('Click nova atividade');
+  const criarNovaAtiv = (idAtividade: number) => {
+    console.log(idAtividade);
   };
 
   const novaColuna = async () => {
@@ -245,7 +233,7 @@ function ListaArrastavel({ lista, tituloLista }: PropsItem) {
                 <div key={id} className="coluna-itens">
                   <div className="container-titulo">
                     <h3 className="titulo-coluna">{nome_coluna}</h3>
-                    <button className="btn-nova-atv" title="Criar nova atividade" onClick={criarNovaAtiv}>
+                    <button className="btn-nova-atv" title="Criar nova atividade" onClick={() => criarNovaAtiv(id)}>
                       <Image src="/plus.png" alt="Nova atividade" className="icon-nova-ativ" width={20} height={20} />
                     </button>
                   </div>
@@ -259,13 +247,18 @@ function ListaArrastavel({ lista, tituloLista }: PropsItem) {
                           {overColumn === nome_coluna && draggedFromColumn !== nome_coluna && spaceIndex === index && (
                             <div className="placeholder-item"></div>
                           )}
-                          <SortableItem {...item} />
+                          <ItemLista
+                            id={item.id}
+                            titulo_atividade={item.titulo_atividade}
+                            nome_projeto={item.nome_projeto}
+                            cor_projeto={item.cor_projeto}
+                          />
                         </div>
                       ))
                     : (
                       <PlaceholderItem id={nome_coluna} colunaOrigen={draggedFromColumn} />
                     )}
-                    <button className="nova-ativ-item" onClick={criarNovaAtiv}>
+                    <button className="nova-ativ-item" onClick={() => criarNovaAtiv(id)}>
                       Criar uma nova atividade
                     </button>
                   </SortableContext>
@@ -277,9 +270,8 @@ function ListaArrastavel({ lista, tituloLista }: PropsItem) {
               <ItemLista
                 id={activeItem.id}
                 titulo_atividade={activeItem.titulo_atividade}
-                desc_atividade={activeItem.desc_atividade}
+                nome_projeto={activeItem.nome_projeto}
                 cor_projeto={activeItem.cor_projeto}
-                feito={activeItem.feito}
               />
             ) : null}
           </DragOverlay>

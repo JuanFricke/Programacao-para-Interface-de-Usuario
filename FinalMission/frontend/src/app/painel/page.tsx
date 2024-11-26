@@ -20,16 +20,14 @@ const Projetos: React.FC<PropsProjeto> = ({ nome_user = 'usuário', }) => {
               {
                 id: '141',
                 titulo_atividade: 'Atividade 1',
-                desc_atividade: 'Projeto 1',
+                nome_projeto: 'Projeto 1',
                 cor_projeto: '#9b51e0',
-                feito: true,
               },
               {
                 id: '444',
                 titulo_atividade: 'Atividade 6',
-                desc_atividade: 'Projeto 1',
+                nome_projeto: 'Projeto 1',
                 cor_projeto: '#9b51e0',
-                feito: true,
               },
             ],
         }, {
@@ -39,9 +37,8 @@ const Projetos: React.FC<PropsProjeto> = ({ nome_user = 'usuário', }) => {
               {
                 id: '456',
                 titulo_atividade: 'Atividade 5',
-                desc_atividade: 'Projeto 1',
+                nome_projeto: 'Projeto 1',
                 cor_projeto: '#9b51e0',
-                feito: false,
               },
             ],
         }
