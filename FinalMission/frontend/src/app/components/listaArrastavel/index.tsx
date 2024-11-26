@@ -199,7 +199,10 @@ function ListaArrastavel({ lista, tituloLista }: PropsItem) {
 
       const data = await res.json();
       if (res.ok) {
-        
+        setListaAtividades([
+          ...listas,
+          data
+        ])    
       } else {
         setErro(data.message);
         setTimeout(() => {
@@ -216,7 +219,7 @@ function ListaArrastavel({ lista, tituloLista }: PropsItem) {
       }, 5000);
       setCarregando(false);
       setModal(false)
-      setNomeColuna('')
+      setNomeColuna('')  
     }
   }
 
