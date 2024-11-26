@@ -13,13 +13,13 @@ services:
     build:
       context: ./backend/
     volumes:
-      - ./backend:/usr/app/
+      - ./backend:/usr/app/ # Mount your local code into the container
+      - /usr/app/vendor # Ensure dependencies are accessible inside the container
     ports:
-      - "5000:8000"
+      - "5000:5000"
     networks:
       - dev-net
-    environment:
-      - PORT=8000
+    command: ["go", "run", "-mod=vendor", "."] # Run the app without rebuilding the image
 
   postgres:
     image: postgres:latest
