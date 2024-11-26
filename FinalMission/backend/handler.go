@@ -4,6 +4,7 @@ package main
 import (
 	"encoding/json"
 	"io"
+	"log"
 	"net/http"
 
 	"github.com/gorilla/mux"
@@ -27,9 +28,13 @@ func getUserProjects(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	log.Println("Json Received and parsing Complete")
+
 	// -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
-	projects := selectProjects(projectRequest.UserID)
+	projects := selectProjects(projectRequest)
+
+	log.Println("Projects Selected!")
 
 	// Respond with the filtered projects
 	w.Header().Set("Content-Type", "application/json")
@@ -37,6 +42,30 @@ func getUserProjects(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Error encoding response", http.StatusInternalServerError)
 		return
 	}
+}
+
+func createUser(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodPost {
+		http.Error(w, "Invalid request method", http.StatusMethodNotAllowed)
+		return
+	}
+	body, err := io.ReadAll(r.Body)
+	if err != nil {
+		http.Error(w, "Unable to read request body", http.StatusBadRequest)
+		return
+	}
+	defer r.Body.Close()
+
+	var createUserRequest CreateUserRequest
+	if err := json.Unmarshal(body, &createUserRequest); err != nil {
+		http.Error(w, "Invalid JSON format", http.StatusBadRequest)
+		return
+	}
+
+	// -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+
+	response := insertUser(createUserRequest)
+
 }
 
 func getUserTasks(w http.ResponseWriter, r *http.Request) {
@@ -59,14 +88,14 @@ func getUserTasks(w http.ResponseWriter, r *http.Request) {
 
 	// -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
-	tasks := selectProjects(taskRequest.ProjectID)
+	// tasks := selectProjects()
 
-	// Respond with the filtered projects
-	w.Header().Set("Content-Type", "application/json")
-	if err := json.NewEncoder(w).Encode(tasks); err != nil {
-		http.Error(w, "Error encoding response", http.StatusInternalServerError)
-		return
-	}
+	// // Respond with the filtered projects
+	// w.Header().Set("Content-Type", "application/json")
+	// if err := json.NewEncoder(w).Encode(tasks); err != nil {
+	// 	http.Error(w, "Error encoding response", http.StatusInternalServerError)
+	// 	return
+	// }
 }
 
 func updateBook(w http.ResponseWriter, r *http.Request) {

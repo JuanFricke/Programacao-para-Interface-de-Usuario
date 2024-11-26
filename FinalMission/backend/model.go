@@ -14,12 +14,24 @@ var books = []Book{
 	{ID: "2", Title: "To Kill a Mockingbird", Author: "Harper Lee", Year: 1960},
 }
 
+type CreateUserRequest struct {
+	Username string `json:"username"`
+	Password string `json:"password"`
+	Email    string `json:"email"`
+}
+
 type ProjectRequest struct {
 	UserID int `json:"userId"`
 }
 
 type TaskRequest struct {
 	ProjectID int `json:"projectId"`
+}
+
+type User struct {
+	ID       string `json:"id"`
+	Username string `json:"username"`
+	Email    string `json:"email"`
 }
 
 type Project struct {
