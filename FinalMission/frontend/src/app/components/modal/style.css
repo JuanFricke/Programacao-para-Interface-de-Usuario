@@ -49,12 +49,7 @@
 
 .modal-body {
     height: 100%;
-    overflow: hidden;
-}
-@media (max-width: 768px) {
-    .modal-body {
-        overflow: auto;
-    }
+    overflow: auto;
 }
 
 .modal-footer {

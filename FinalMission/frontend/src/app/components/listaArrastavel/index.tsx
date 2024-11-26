@@ -19,24 +19,30 @@ import { ItemLista, PlaceholderItem } from '../itemLista';
 import { Modal } from '../modal';
 import Input from '../input';
 import "./style.css";
-import { Atividade, Coluna } from '@/utilsatividades';
+import { Atividade, Coluna, Projeto } from '@/utilsatividades';
 import Alerta from '../alerta';
+import Select from '../select';
 
 interface PropsItem {
   tituloLista: string;
   lista: Coluna[];
+  listaProjetos: Projeto[]
 }
 
-function ListaArrastavel({ lista, tituloLista }: PropsItem) {
+function ListaArrastavel({ lista, tituloLista, listaProjetos }: PropsItem) {
   const [listas, setListaAtividades] = useState(lista);
   const [activeItem, setActiveItem] = useState<Atividade | null>(null);
   const [overColumn, setOverColumn] = useState<string | null>(null);
   const [spaceIndex, setSpaceIndex] = useState<number | null>(null);
   const [draggedFromColumn, setDraggedFromColumn] = useState<string | null>(null);
-  const [modal, setModal] = useState<boolean>(false);
+  const [modalColuna, setModalColuna] = useState<boolean>(false);
   const [colunaNome, setNomeColuna] = useState('');
   const [carregando, setCarregando] = useState(false);
   const [erro, setErro] = useState('');
+  const [modalItem, setModalItem] = useState(false);
+  const [colunaItem, setColunaItem] = useState('');
+  const [descItemNovo, setDescItem] = useState('');
+  const [projeto, setProjeto] = useState('');
   
   const sensors = useSensors(
     useSensor(PointerSensor, {
@@ -167,8 +173,9 @@ function ListaArrastavel({ lista, tituloLista }: PropsItem) {
     return column ? column : null;
   };
 
-  const criarNovaAtiv = (idAtividade: number) => {
-    console.log(idAtividade);
+  const criarNovaAtiv = (nome_coluna: string) => {
+    setColunaItem(nome_coluna);
+    setModalItem(true)
   };
 
   const novaColuna = async () => {
@@ -198,7 +205,7 @@ function ListaArrastavel({ lista, tituloLista }: PropsItem) {
         }, 5000);
       }
       setCarregando(false);
-      setModal(false)
+      setModalColuna(false)
       setNomeColuna('')
     } catch (error) {
       setErro("Erro ao criar coluna.");
@@ -206,8 +213,48 @@ function ListaArrastavel({ lista, tituloLista }: PropsItem) {
         setErro("");
       }, 5000);
       setCarregando(false);
-      setModal(false)
+      setModalColuna(false)
       setNomeColuna('')  
+    }
+  }
+
+  const novoItem = async () => {
+    try {
+      if (carregando || !colunaItem || !descItemNovo) {
+        return;
+      }
+      setCarregando(true);
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/novoItem`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ colunaItem, descItemNovo, projeto }),
+      });
+
+      const data = await res.json();
+      if (res.ok) {
+        setListaAtividades([
+          ...listas,
+          data
+        ])    
+      } else {
+        setErro(data.message);
+        setTimeout(() => {
+          setErro("");
+        }, 5000);
+      }
+      setCarregando(false);
+      setModalItem(false)
+      setDescItem('')
+    } catch (error) {
+      setErro("Erro ao criar item.");
+      setTimeout(() => {
+        setErro("");
+      }, 5000);
+      setCarregando(false);
+      setModalItem(false)
+      setDescItem('')  
     }
   }
 
@@ -215,7 +262,7 @@ function ListaArrastavel({ lista, tituloLista }: PropsItem) {
     <>
       <div className="cabecalho-lista">
         <div className="titulo-lista">{tituloLista}</div>
-        <button className="config-lista" title='Adicionar coluna' onClick={() => setModal(true)}>
+        <button className="config-lista" title='Adicionar coluna' onClick={() => setModalColuna(true)}>
             <Image src="/plus.png" className="config-icon" alt="Logo da empresa" width={20} height={20} />
         </button>
       </div>
@@ -233,7 +280,7 @@ function ListaArrastavel({ lista, tituloLista }: PropsItem) {
                 <div key={id} className="coluna-itens">
                   <div className="container-titulo">
                     <h3 className="titulo-coluna">{nome_coluna}</h3>
-                    <button className="btn-nova-atv" title="Criar nova atividade" onClick={() => criarNovaAtiv(id)}>
+                    <button className="btn-nova-atv" title="Criar nova atividade" onClick={() => criarNovaAtiv(nome_coluna)}>
                       <Image src="/plus.png" alt="Nova atividade" className="icon-nova-ativ" width={20} height={20} />
                     </button>
                   </div>
@@ -258,7 +305,7 @@ function ListaArrastavel({ lista, tituloLista }: PropsItem) {
                     : (
                       <PlaceholderItem id={nome_coluna} colunaOrigen={draggedFromColumn} />
                     )}
-                    <button className="nova-ativ-item" onClick={() => criarNovaAtiv(id)}>
+                    <button className="nova-ativ-item" onClick={() => criarNovaAtiv(nome_coluna)}>
                       Criar uma nova atividade
                     </button>
                   </SortableContext>
@@ -282,10 +329,10 @@ function ListaArrastavel({ lista, tituloLista }: PropsItem) {
           <p>Nenhum dado encontrado</p>
         </div>
       }
-      {modal && 
+      {modalColuna && 
         <Modal
           titulo="Adicionar Coluna"
-          onClose={() => setModal(false)}
+          onClose={() => setModalColuna(false)}
           btn={<button className='btn-primary' onClick={novaColuna} disabled={!colunaNome || carregando}>
             {carregando ? 'Salvando...' : 'Salvar'}
           </button>}
@@ -296,6 +343,23 @@ function ListaArrastavel({ lista, tituloLista }: PropsItem) {
             setValue={setNomeColuna}
             label='nome-coluna'
           />
+        </Modal>
+      }
+      {modalItem && 
+        <Modal
+          titulo="Adicionar Item"
+          onClose={() => setModalItem(false)}
+          btn={<button className='btn-primary' onClick={novoItem} disabled={!descItemNovo || carregando}>
+            {carregando ? 'Salvando...' : 'Salvar'}
+          </button>}
+          >
+          <Input
+            text='Descrição da atividade: '
+            value={descItemNovo}
+            setValue={setDescItem}
+            label='desc-item'
+          />
+          <Select array={listaProjetos} chave='id' text='titulo_projeto' label='Projetos' value={projeto} changeValue={setProjeto} />
         </Modal>
       }
       {erro &&
