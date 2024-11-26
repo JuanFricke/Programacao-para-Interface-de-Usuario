@@ -20,6 +20,7 @@ import { Modal } from '../modal';
 import Input from '../input';
 import "./style.css";
 import { Atividade, Coluna } from '@/utilsatividades';
+import Alerta from '../alerta';
 
 interface PropsItem {
   tituloLista: string;
@@ -47,6 +48,7 @@ function ListaArrastavel({ lista, tituloLista }: PropsItem) {
   const [modal, setModal] = useState<boolean>(false);
   const [colunaNome, setNomeColuna] = useState('');
   const [carregando, setCarregando] = useState(false);
+  const [erro, setErro] = useState('');
   
   const sensors = useSensors(
     useSensor(PointerSensor, {
@@ -199,13 +201,22 @@ function ListaArrastavel({ lista, tituloLista }: PropsItem) {
       if (res.ok) {
         
       } else {
-        // setErro(data.message);
+        setErro(data.message);
+        setTimeout(() => {
+          setErro("");
+        }, 5000);
       }
       setCarregando(false);
+      setModal(false)
+      setNomeColuna('')
     } catch (error) {
-      window.alert("Erro ao criar coluna.");
-      // setErro("Erro ao criar coluna.");
+      setErro("Erro ao criar coluna.");
+      setTimeout(() => {
+        setErro("");
+      }, 5000);
       setCarregando(false);
+      setModal(false)
+      setNomeColuna('')
     }
   }
 
@@ -280,7 +291,9 @@ function ListaArrastavel({ lista, tituloLista }: PropsItem) {
         <Modal
           titulo="Adicionar Coluna"
           onClose={() => setModal(false)}
-          btn={<button className='btn-primary' onClick={novaColuna} disabled={!colunaNome}>Salvar</button>}
+          btn={<button className='btn-primary' onClick={novaColuna} disabled={!colunaNome || carregando}>
+            {carregando ? 'Salvando...' : 'Salvar'}
+          </button>}
           >
           <Input
             text='Nome da coluna '
@@ -289,6 +302,9 @@ function ListaArrastavel({ lista, tituloLista }: PropsItem) {
             label='nome-coluna'
           />
         </Modal>
+      }
+      {erro &&
+        <Alerta mensagem={erro} tipo='erro' />
       }
     </>
   );
