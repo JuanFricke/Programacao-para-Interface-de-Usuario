@@ -5,44 +5,15 @@ import { Home } from '@/layout-page';
 import ListaArrastavel from '@/components/listaArrastavel';
 import "./style.css";
 import { SemDados } from '@/components/semDados';
-import { Coluna } from '@/utilsatividades';
+import { Coluna, Projeto } from '@/utilsatividades';
 
 interface PropsProjeto {
     nome_user?: string
 }
 
 const Projetos: React.FC<PropsProjeto> = ({ nome_user = 'usuário', }) => {
-    const [listaAtividades, setListaAtividades] = useState<Coluna[]>([
-        {
-            id: 1,
-            nome_coluna: 'coluna1',
-            atividades: [
-              {
-                id: '141',
-                titulo_atividade: 'Atividade 1',
-                nome_projeto: 'Projeto 1',
-                cor_projeto: '#9b51e0',
-              },
-              {
-                id: '444',
-                titulo_atividade: 'Atividade 6',
-                nome_projeto: 'Projeto 1',
-                cor_projeto: '#9b51e0',
-              },
-            ],
-        }, {
-            id: 2,
-            nome_coluna: 'coluna2',
-            atividades: [
-              {
-                id: '456',
-                titulo_atividade: 'Atividade 5',
-                nome_projeto: 'Projeto 1',
-                cor_projeto: '#9b51e0',
-              },
-            ],
-        }
-    ]);
+    const [listaAtividades, setListaAtividades] = useState<Coluna[]>([]);
+    const [listaProjetos, setListaProjetos] = useState<Projeto[]>([]);
 
     return (
         <Home>
@@ -51,10 +22,9 @@ const Projetos: React.FC<PropsProjeto> = ({ nome_user = 'usuário', }) => {
             </div>
             {listaAtividades ? 
                 <div className="container-lista">
-                    <ListaArrastavel lista={listaAtividades} tituloLista="Painel" />
+                    <ListaArrastavel lista={listaAtividades} tituloLista="Painel" listaProjetos={listaProjetos} />
                 </div>
-            :
-                <SemDados />
+            : <SemDados />
             }
         </Home>
     )
