@@ -6,50 +6,58 @@ import (
 	"log"
 	"os"
 
-	_ "github.com/lib/pq"
+	"github.com/joho/godotenv"
 )
 
 var db *sql.DB
 
+func loadEnv() {
+	if err := godotenv.Load(); err != nil {
+		log.Println(".env file not found, using system environment variables")
+	}
+}
+
 func InitDb() {
 	loadEnv()
 
-	// Obtém as variáveis de ambiente carregadas do .env
-	dbHost := os.Getenv("POSTGRES_HOST")
-	dbPort := os.Getenv("POSTGRES_PORT")
-	dbUser := os.Getenv("POSTGRES_USER")
-	dbPassword := os.Getenv("POSTGRES_PASSWORD")
-	dbName := os.Getenv("POSTGRES_DB")
-	dbSslMode := os.Getenv("POSTGRES_SSLMODE")
+	// Obtém e valida as variáveis de ambiente
+	requiredEnvVars := []string{"POSTGRES_HOST", "POSTGRES_PORT", "POSTGRES_USER", "POSTGRES_PASSWORD", "POSTGRES_DB", "POSTGRES_SSLMODE"}
+	for _, envVar := range requiredEnvVars {
+		if os.Getenv(envVar) == "" {
+			log.Fatalf("Environment variable %s is missing", envVar)
+		}
+	}
 
-	// Monta a string de conexão
-	connStr := fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=%s", dbHost, dbPort, dbUser, dbPassword, dbName, dbSslMode)
+	connStr := fmt.Sprintf(
+		"host=%s port=%s user=%s password=%s dbname=%s sslmode=%s",
+		os.Getenv("POSTGRES_HOST"),
+		os.Getenv("POSTGRES_PORT"),
+		os.Getenv("POSTGRES_USER"),
+		os.Getenv("POSTGRES_PASSWORD"),
+		os.Getenv("POSTGRES_DB"),
+		os.Getenv("POSTGRES_SSLMODE"),
+	)
 
 	var err error
 	db, err = sql.Open("postgres", connStr)
-
 	if err != nil {
-		log.Fatalf("Tried to Connect to the database, but failed: %v", err)
+		log.Fatalf("Failed to open DB connection: %v", err)
 	}
-	// Test the connection
-	if err = db.Ping(); err != nil {
-		log.Fatalf("Tried Ping the database, but failed: %v", err)
-	}
-	log.Println("Connected to the database!")
-}
 
-func Db() *sql.DB {
-	return db
+	if err = db.Ping(); err != nil {
+		log.Fatalf("Failed to ping database: %v", err)
+	}
+
+	log.Println("Successfully connected to the database!")
 }
 
 func CloseDb() {
 	log.Println("Closing database connection")
 	db.Close()
 }
-
-func loadEnv() {
-	// err := godotenv.Load()
-	// if err != nil {
-	// 	log.Fatalf("Error loading .env file")
-	// }
+func Db() *sql.DB {
+	if db == nil {
+		log.Fatal("Database connection is nil")
+	}
+	return db
 }
