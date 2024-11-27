@@ -24,7 +24,6 @@ const ProjetoDetalhes: React.FC<ProjetoDetalhesProps> = ({ params }) => {
     const [projeto, setProjeto] = useState<Projeto[]>([]);
     const [carregando, setCarregando] = useState(true);
     const [erro, setErro] = useState('');
-    const router = useRouter();
     
     useEffect(() => {
       const fetchParams = async () => {
