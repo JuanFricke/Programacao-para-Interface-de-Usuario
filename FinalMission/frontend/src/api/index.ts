@@ -22,7 +22,6 @@ export async function Api({ body, rota, method = "GET" }: LoginParams): Promise<
 
     return await res.json();
   } catch (error) {
-    console.error("Erro:", error);
     throw error;
   }
 }

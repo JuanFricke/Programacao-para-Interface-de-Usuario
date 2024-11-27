@@ -45,7 +45,7 @@ const ProjetoDetalhes: React.FC<ProjetoDetalhesProps> = ({ params }) => {
                     setProjeto(response)
                     setCarregando(false);
                 } catch (error) {
-                    setProjeto([])
+                    setErro('Erro ao buscar os dados!');
                 } finally {
                     setCarregando(false);
                 }
@@ -53,7 +53,7 @@ const ProjetoDetalhes: React.FC<ProjetoDetalhesProps> = ({ params }) => {
             
             fetchProjetos();
         }
-    }, [projeto])
+    })
     
     return (
         <Home>

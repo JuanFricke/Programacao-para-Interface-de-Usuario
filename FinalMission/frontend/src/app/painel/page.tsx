@@ -26,7 +26,6 @@ const Projetos: React.FC<PropsProjeto> = ({ nome_user = 'usuário', }) => {
                 const response = await Api({ body: { id_usuario }, rota: "atividades" });
                 setListaAtividades(response)
             } catch (error) {
-                setListaAtividades([])
                 setCarregando(false);
             }
         }
@@ -37,14 +36,13 @@ const Projetos: React.FC<PropsProjeto> = ({ nome_user = 'usuário', }) => {
                 const response = await Api({ body: { id_usuario }, rota: "projetos" });
                 setListaProjetos(response)
             } catch (error) {
-                setListaProjetos([])
                 setCarregando(false);
             }
         }
         
         fetchAtividades();
         fetchProjetos();
-    }, [listaAtividades , listaProjetos])
+    })
 
     return (
         <Home>

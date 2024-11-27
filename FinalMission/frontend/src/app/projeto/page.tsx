@@ -11,6 +11,7 @@ import { Modal } from '@/components/modal';
 import Input from '@/components/input';
 import Alerta from '@/components/alerta';
 import { Api } from '@/apiindex';
+import { SemDados } from '@/components/semDados';
 
 const Projetos: React.FC = () => {
     const [listaProjetos, setListaProjetos] = useState<Projeto[]>([]);
@@ -30,13 +31,12 @@ const Projetos: React.FC = () => {
                 const response = await Api({ body: { id_usuario }, rota: "projetos" });
                 setListaProjetos(response)
             } catch (error) {
-                setListaProjetos([])
                 setCarregando(false);
             }
         }
         
         fetchProjetos();
-    }, [listaProjetos])
+    })
 
     const novoItem = async () => {
         const id_usuario = localStorage.getItem("id_usuario");
@@ -75,25 +75,28 @@ const Projetos: React.FC = () => {
                     <Image src="/plus.png" className="config-icon" alt="Logo da empresa" width={20} height={20} />
                 </button>
             </div>
-            <div className="container-atividades">
-                {listaProjetos.map(({ id, titulo_projeto, desc_projeto, cor_projeto, porcentagem_atividade }) => {
-                    return (
-                        <div
-                            key={id}
-                            className='container-projeto'
-                        >
-                            <Link href={`/projeto/${id}`} passHref>
-                                <div className="cabecalho-projeto">
-                                    <div className="titulo-projeto">{titulo_projeto}</div>
-                                    <div className="identificador-atividade" style={{ backgroundColor: cor_projeto }}></div>
-                                </div>
-                                <div className="desc-projeto">{desc_projeto}</div>
-                                <BarraPorcentagem percent={porcentagem_atividade} />
-                            </Link>
-                        </div>
-                    )
-                })}
-            </div>
+            { listaProjetos.length > 0 ?
+                (<div className="container-atividades">
+                    {listaProjetos.map(({ id, titulo_projeto, desc_projeto, cor_projeto, porcentagem_atividade }) => {
+                        return (
+                            <div
+                                key={id}
+                                className='container-projeto'
+                            >
+                                <Link href={`/projeto/${id}`} passHref>
+                                    <div className="cabecalho-projeto">
+                                        <div className="titulo-projeto">{titulo_projeto}</div>
+                                        <div className="identificador-atividade" style={{ backgroundColor: cor_projeto }}></div>
+                                    </div>
+                                    <div className="desc-projeto">{desc_projeto}</div>
+                                    <BarraPorcentagem percent={porcentagem_atividade} />
+                                </Link>
+                            </div>
+                        )
+                    })}
+                </div>
+                )
+            : <SemDados/> }
             {modal &&
                 <Modal
                     titulo="Adicionar Item"
