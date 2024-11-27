@@ -22,6 +22,7 @@ import "./style.css";
 import { Atividade, Coluna, Projeto } from '@/utilsatividades';
 import Alerta from '../alerta';
 import Select from '../select';
+import { Api } from '@/apiindex';
 
 interface PropsItem {
   tituloLista: string;
@@ -182,37 +183,22 @@ function ListaArrastavel({ lista, tituloLista, listaProjetos }: PropsItem) {
         return;
       }
       setCarregando(true);
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/novoItem`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ colunaItem, descItemNovo, projeto }),
-      });
+      const body = { colunaItem, descItemNovo, projeto };
+      const response = await Api({ body, rota: "novoItem", method: "POST" });
 
-      const data = await res.json();
-      if (res.ok) {
-        setListaAtividades([
-          ...listas,
-          data
-        ])    
-      } else {
-        setErro(data.message);
-        setTimeout(() => {
-          setErro("");
-        }, 5000);
-      }
-      setCarregando(false);
-      setModalItem(false)
-      setDescItem('')
+      setListaAtividades([
+        ...listas,
+        response
+      ])
     } catch (error) {
       setErro("Erro ao criar item.");
       setTimeout(() => {
         setErro("");
       }, 5000);
+    } finally {
       setCarregando(false);
       setModalItem(false)
-      setDescItem('')  
+      setDescItem('')
     }
   }
 

@@ -7,6 +7,7 @@ import { CardAcesso } from '@/components/cardAcesso';
 import Input from '@/components/input';
 import './style.css';
 import Link from 'next/link';
+import { Api } from '@/apiindex';
 
 function Login() {
   const router = useRouter()
@@ -16,31 +17,22 @@ function Login() {
   const [carregando, setCarregando] = useState(false);
 
   const entrar = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
-    event.preventDefault()
-    
+    event.preventDefault();
+    const body = { email, senha };  
+
     try {
       if (carregando || !email || !senha) {
         return;
       }
       setCarregando(true);
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/login`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, senha }),
-      });
+      const response = await Api({ body, rota: "login" });
 
-      const data = await res.json();
-      if (res.ok) {
-        localStorage.setItem("auth_token", data.token);
-        router.push("/painel");
-      } else {
-        setErro(data.message);
-      }
-      setCarregando(false);
+      localStorage.setItem("auth_token", response.token);
+      localStorage.setItem("id_usuario", response.id_usuario);
+      router.push("/painel");
     } catch (error) {
       setErro("Erro ao tentar fazer login.");
+    } finally {
       setCarregando(false);
     }
   }

@@ -6,6 +6,7 @@ import ListaArrastavel from '@/components/listaArrastavel';
 import "./style.css";
 import { SemDados } from '@/components/semDados';
 import { Coluna, Projeto } from '@/utilsatividades';
+import { Api } from '@/apiindex';
 
 interface PropsProjeto {
     nome_user?: string
@@ -14,6 +15,36 @@ interface PropsProjeto {
 const Projetos: React.FC<PropsProjeto> = ({ nome_user = 'usuário', }) => {
     const [listaAtividades, setListaAtividades] = useState<Coluna[]>([]);
     const [listaProjetos, setListaProjetos] = useState<Projeto[]>([]);
+    const [carregando, setCarregando] = useState(false);
+
+    useEffect(() => {
+        const id_usuario = localStorage.getItem("id_usuario");
+        
+        const fetchAtividades = async () => {
+            try {
+                setCarregando(true);
+                const response = await Api({ body: { id_usuario }, rota: "atividades" });
+                setListaAtividades(response)
+            } catch (error) {
+                setListaAtividades([])
+                setCarregando(false);
+            }
+        }
+
+        const fetchProjetos = async () => {
+            try {
+                setCarregando(true);
+                const response = await Api({ body: { id_usuario }, rota: "projetos" });
+                setListaProjetos(response)
+            } catch (error) {
+                setListaProjetos([])
+                setCarregando(false);
+            }
+        }
+        
+        fetchAtividades();
+        fetchProjetos();
+    }, [listaAtividades , listaProjetos])
 
     return (
         <Home>

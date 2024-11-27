@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Home } from '@/layout-page';
@@ -10,24 +10,10 @@ import './style.css';
 import { Modal } from '@/components/modal';
 import Input from '@/components/input';
 import Alerta from '@/components/alerta';
+import { Api } from '@/apiindex';
 
 const Projetos: React.FC = () => {
-    const [listaProjetos, setListaProjetos] = useState<Projeto[]>([
-        {
-            id: 123,
-            titulo_projeto: 'Projeto 1',
-            desc_projeto: 'Descrição do projeto novo teste',
-            cor_projeto: '#9b51e0',
-            porcentagem_atividade: 20,
-        }, {
-            id: 456,
-            titulo_projeto: 'Projeto 2',
-            desc_projeto: 'Descrição do projeto novo teste',
-            cor_projeto: '#56ccf2',
-            porcentagem_atividade: 50,
-        }
-    ]);
-
+    const [listaProjetos, setListaProjetos] = useState<Projeto[]>([]);
     const [modal, setModal] = useState(false);
     const [carregando, setCarregando] = useState(false);
     const [erro, setErro] = useState('');
@@ -35,42 +21,45 @@ const Projetos: React.FC = () => {
     const [descProjeto, setDescProjeto] = useState('');
     const [corProjeto, setCorProjeto] = useState("#000000");
 
+    useEffect(() => {
+        const id_usuario = localStorage.getItem("id_usuario");
+
+        const fetchProjetos = async () => {
+            try {
+                setCarregando(true);
+                const response = await Api({ body: { id_usuario }, rota: "projetos" });
+                setListaProjetos(response)
+            } catch (error) {
+                setListaProjetos([])
+                setCarregando(false);
+            }
+        }
+        
+        fetchProjetos();
+    }, [listaProjetos])
+
     const novoItem = async () => {
+        const id_usuario = localStorage.getItem("id_usuario");
+
         try {
             if (carregando || !nomeProjeto || !descProjeto || !corProjeto) {
                 return;
             }
             setCarregando(true);
-            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/novoProjeto`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ nomeProjeto, descProjeto, corProjeto }),
-            });
 
-            const data = await res.json();
-            if (res.ok) {
-                setListaProjetos([
-                    ...listaProjetos,
-                    data
-                ])
-            } else {
-                setErro(data.message);
-                setTimeout(() => {
-                    setErro("");
-                }, 5000);
-            }
-            setCarregando(false);
-            setModal(false)
-            setNomeProjeto('')
-            setDescProjeto('')
-            setCorProjeto('#000')
+            const body = { id_usuario, nomeProjeto, descProjeto, corProjeto };
+            const response = await Api({ body, rota: "novoProjeto", method: 'POST' });
+
+            setListaProjetos([
+                ...listaProjetos,
+                response
+            ])
         } catch (error) {
             setErro("Erro ao criar o projeto.");
             setTimeout(() => {
                 setErro("");
             }, 5000);
+        } finally {
             setCarregando(false);
             setModal(false)
             setNomeProjeto('')

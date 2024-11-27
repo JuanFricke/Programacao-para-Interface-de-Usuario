@@ -9,6 +9,7 @@ import ListaArrastavel from '@/components/listaArrastavel';
 import { Pomodoro } from '@/components/pomodoro';
 import { Projeto } from '@/utilsatividades';
 import { SemDados } from '@/components/semDados';
+import { Api } from '@/apiindex';
 
 interface ProjetoDetalhesParams {
     id: string; // Altere conforme o formato de `params`
@@ -21,7 +22,6 @@ interface ProjetoDetalhesProps {
 const ProjetoDetalhes: React.FC<ProjetoDetalhesProps> = ({ params }) => {
     const [idProjeto, setIdProjeto] = useState('');
     const [projeto, setProjeto] = useState<Projeto[]>([]);
-    const [listaProjetos, setListaProjetos] = useState<Projeto[]>([]);
     const [carregando, setCarregando] = useState(true);
     const [erro, setErro] = useState('');
     const router = useRouter();
@@ -36,27 +36,24 @@ const ProjetoDetalhes: React.FC<ProjetoDetalhesProps> = ({ params }) => {
 
     useEffect(() => {
         if (idProjeto) {
-            setCarregando(true);
-            res()
-            .then((dados) => setProjeto(dados))
-            .catch((error) => setErro("Erro ao processar a requisição."));
-            setCarregando(false);
+            const id_usuario = localStorage.getItem("id_usuario");
+            
+            const fetchProjetos = async () => {
+                try {
+                    setCarregando(true);
+                    const response = await Api({ body: { id_usuario, id: idProjeto }, rota: "projetos" });
+                    setProjeto(response)
+                    setCarregando(false);
+                } catch (error) {
+                    setProjeto([])
+                } finally {
+                    setCarregando(false);
+                }
+            }
+            
+            fetchProjetos();
         }
-    })
-    
-    const res = async () => {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/projetos`, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ id: idProjeto }),
-        });
-    
-        if (!response.ok) throw new Error("Erro na requisição");
-    
-        return response.json();
-    };
+    }, [projeto])
     
     return (
         <Home>
@@ -71,7 +68,7 @@ const ProjetoDetalhes: React.FC<ProjetoDetalhesProps> = ({ params }) => {
                     <BarraPorcentagem percent={projeto[0].porcentagem_atividade} />
                     </div>
                     <div className="container-lista">
-                        <ListaArrastavel listas={projeto[0].atividades} tituloLista={projeto[0].titulo_projeto} listaProjetos={listaProjetos} />
+                        <ListaArrastavel lista={projeto[0].atividades|| []} tituloLista={projeto[0].titulo_projeto} listaProjetos={listaProjetos} />
                     </div>
                     <Pomodoro />
                 </>
@@ -90,8 +87,5 @@ const ProjetoDetalhes: React.FC<ProjetoDetalhesProps> = ({ params }) => {
         </Home>
     );
 };
-
-
-{/*  */}
 
 export default ProjetoDetalhes;
