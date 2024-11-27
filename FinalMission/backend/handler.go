@@ -10,6 +10,11 @@ import (
 	"github.com/gorilla/mux"
 )
 
+func apiOk(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(map[string]string{"message": "API is running"})
+}
+
 func getUserProjects(w http.ResponseWriter, r *http.Request) {
 	if r.Method != http.MethodPost {
 		http.Error(w, "Invalid request method", http.StatusMethodNotAllowed)
@@ -42,30 +47,6 @@ func getUserProjects(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Error encoding response", http.StatusInternalServerError)
 		return
 	}
-}
-
-func createUser(w http.ResponseWriter, r *http.Request) {
-	if r.Method != http.MethodPost {
-		http.Error(w, "Invalid request method", http.StatusMethodNotAllowed)
-		return
-	}
-	body, err := io.ReadAll(r.Body)
-	if err != nil {
-		http.Error(w, "Unable to read request body", http.StatusBadRequest)
-		return
-	}
-	defer r.Body.Close()
-
-	var createUserRequest CreateUserRequest
-	if err := json.Unmarshal(body, &createUserRequest); err != nil {
-		http.Error(w, "Invalid JSON format", http.StatusBadRequest)
-		return
-	}
-
-	// -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
-
-	response := insertUser(createUserRequest)
-
 }
 
 func getUserTasks(w http.ResponseWriter, r *http.Request) {
