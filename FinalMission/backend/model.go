@@ -29,9 +29,10 @@ type TaskRequest struct {
 }
 
 type User struct {
-	ID       string `json:"id"`
+	ID       int    `json:"id"`
 	Username string `json:"username"`
 	Email    string `json:"email"`
+	Password string `json:"password"`
 }
 
 type Project struct {
@@ -49,5 +50,22 @@ type Task struct {
 	Title       string `json:"title"`
 	Description string `json:"description"`
 	Status      string `json:"status"`
+	Color       string `json:"color"`
+}
+
+type NewTaskRequest struct {
+	Title       string `json:"title"`
+	Description string `json:"description"`
+	Status      string `json:"status"`
+	ProjectID   int    `json:"project_id"`
+	Color       string `json:"color"`
+}
+
+type NewTaskResponse struct {
+	ID          int    `json:"id"`
+	Title       string `json:"title"`
+	Description string `json:"description"`
+	Status      string `json:"status"`
+	ProjectID   int    `json:"project_id"`
 	Color       string `json:"color"`
 }
