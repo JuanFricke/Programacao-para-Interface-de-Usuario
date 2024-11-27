@@ -26,3 +26,5 @@ CREATE TABLE tasks (
 
     FOREIGN KEY (project_id) REFERENCES projects(id)
 );
+
+CREATE EXTENSION IF NOT EXISTS PGCRYPTO;
