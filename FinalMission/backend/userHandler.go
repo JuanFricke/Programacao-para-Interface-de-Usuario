@@ -27,23 +27,24 @@ func createUser(w http.ResponseWriter, r *http.Request) {
 	encryptedPassword := hmacEncrypt(request.Password, "teste")
 
 	// Chama a função de inserção no banco de dados
-	result := insertUser(CreateUserRequest{
+	userID, err := insertUser(CreateUserRequest{
 		Username: request.Username,
 		Password: encryptedPassword,
 		Email:    request.Email,
 	})
 
-	if result == nil {
+	// Verifica erros na inserção
+	if err != nil {
 		http.Error(w, "Failed to insert user", http.StatusInternalServerError)
 		return
 	}
 
-	// Responde com o novo usuário
+	// Responde com os dados do novo usuário (sem incluir a senha)
 	w.WriteHeader(http.StatusCreated)
 	json.NewEncoder(w).Encode(User{
+		ID:       userID, // Retorna o ID gerado
 		Username: request.Username,
 		Email:    request.Email,
-		Password: encryptedPassword, // Não enviar a senha em produção
 	})
 }
 
