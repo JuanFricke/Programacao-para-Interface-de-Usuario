@@ -3,7 +3,12 @@ package userApi
 import (
 	"backend/dbConnection"
 	"log"
+	"strings"
 )
+
+func isValidEmail(input string) bool {
+	return strings.Contains(input, "@")
+}
 
 func insertUser(userRequest SignupRequest) (int, error) {
 	db := dbConnection.Db()
@@ -54,15 +59,29 @@ func checkUserCredentials(userRequest LoginRequest) (User, error) {
 	db := dbConnection.Db()
 
 	var user User
-	sqlQuery := `
-		SELECT id, username, email
-		FROM users
-		WHERE email = $1 AND password = (select encode(hmac($2, '', 'md5'), 'base64'))
-	`
-	err := db.QueryRow(sqlQuery, userRequest.Email, userRequest.Password).Scan(&user.ID, &user.Username, &user.Email)
+	var sqlQuery string
+	// Verifica se é um email
+	if isValidEmail(userRequest.EmailOrUsername) {
+		sqlQuery = `
+            SELECT id, username, email
+            FROM users
+            WHERE email = $1 AND password = (select encode(hmac($2, '', 'md5'), 'base64'))
+        `
+	} else {
+		// Assume que é um username
+		sqlQuery = `
+            SELECT id, username, email
+            FROM users
+            WHERE username = $1 AND password = (select encode(hmac($2, '', 'md5'), 'base64'))
+        `
+	}
+
+	// Executa a query
+	err := db.QueryRow(sqlQuery, userRequest.EmailOrUsername, userRequest.Password).Scan(&user.ID, &user.Username, &user.Email)
 	if err != nil {
-		log.Printf("Error executing query: %s, Error: %v", sqlQuery, err)
+		log.Printf("Error executing query: %v", err)
 		return User{}, err
 	}
+
 	return user, nil
 }

@@ -12,8 +12,8 @@ type SignupResponse struct {
 	Error      string `json:"error,omitempty"`
 }
 type LoginRequest struct {
-	Email    string `json:"email"`
-	Password string `json:"password"`
+	EmailOrUsername string `json:"emailOrUsername"`
+	Password        string `json:"password"`
 }
 
 type LoginResponse struct {
