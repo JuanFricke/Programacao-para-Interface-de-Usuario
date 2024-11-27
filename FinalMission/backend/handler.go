@@ -66,6 +66,12 @@ func createUser(w http.ResponseWriter, r *http.Request) {
 
 	response := insertUser(createUserRequest)
 
+	w.Header().Set("Content-Type", "application/json")
+	if err := json.NewEncoder(w).Encode(response); err != nil {
+		http.Error(w, "Error encoding response", http.StatusInternalServerError)
+		return
+	}
+
 }
 
 func getUserTasks(w http.ResponseWriter, r *http.Request) {
