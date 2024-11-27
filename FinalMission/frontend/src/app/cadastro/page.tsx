@@ -7,6 +7,7 @@ import { CardAcesso } from '@/components/cardAcesso';
 import Input from '@/components/input';
 import './style.css';
 import Link from 'next/link';
+import { Api } from '@/apiindex';
 
 function Cadastro() {
   const router = useRouter()
@@ -18,30 +19,21 @@ function Cadastro() {
 
   const entrar = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
     event.preventDefault()
-    
+    const body = { email, senha, senhaConfirma };  
+
     try {
-      if (carregando || !email || !senha) {
+      if (carregando || !email || !senha || !senhaConfirma) {
         return;
       }
       setCarregando(true);
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/cadastro`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, senha, senhaConfirma }),
-      });
+      const response = await Api({ body, rota: "cadastro", method: "POST" });
 
-      const data = await res.json();
-      if (res.ok) {
-        localStorage.setItem("auth_token", data.token);
-        router.push("/painel");
-      } else {
-        setErro(data.message);
-      }
-      setCarregando(false);
+      localStorage.setItem("auth_token", response.token);
+      localStorage.setItem("id_usuario", response.id_usuario);
+      router.push("/painel");
     } catch (error) {
       setErro("Erro ao efetuar o cadastro.");
+    } finally {
       setCarregando(false);
     }
   }

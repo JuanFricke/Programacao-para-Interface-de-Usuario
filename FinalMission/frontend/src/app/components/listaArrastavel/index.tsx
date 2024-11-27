@@ -22,6 +22,7 @@ import "./style.css";
 import { Atividade, Coluna, Projeto } from '@/utilsatividades';
 import Alerta from '../alerta';
 import Select from '../select';
+import { Api } from '@/apiindex';
 
 interface PropsItem {
   tituloLista: string;
@@ -35,8 +36,6 @@ function ListaArrastavel({ lista, tituloLista, listaProjetos }: PropsItem) {
   const [overColumn, setOverColumn] = useState<string | null>(null);
   const [spaceIndex, setSpaceIndex] = useState<number | null>(null);
   const [draggedFromColumn, setDraggedFromColumn] = useState<string | null>(null);
-  const [modalColuna, setModalColuna] = useState<boolean>(false);
-  const [colunaNome, setNomeColuna] = useState('');
   const [carregando, setCarregando] = useState(false);
   const [erro, setErro] = useState('');
   const [modalItem, setModalItem] = useState(false);
@@ -178,83 +177,28 @@ function ListaArrastavel({ lista, tituloLista, listaProjetos }: PropsItem) {
     setModalItem(true)
   };
 
-  const novaColuna = async () => {
-    try {
-      if (carregando || !colunaNome) {
-        return;
-      }
-      setCarregando(true);
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/novaColuna`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ colunaNome }),
-      });
-
-      const data = await res.json();
-      if (res.ok) {
-        setListaAtividades([
-          ...listas,
-          data
-        ])    
-      } else {
-        setErro(data.message);
-        setTimeout(() => {
-          setErro("");
-        }, 5000);
-      }
-      setCarregando(false);
-      setModalColuna(false)
-      setNomeColuna('')
-    } catch (error) {
-      setErro("Erro ao criar coluna.");
-      setTimeout(() => {
-        setErro("");
-      }, 5000);
-      setCarregando(false);
-      setModalColuna(false)
-      setNomeColuna('')  
-    }
-  }
-
   const novoItem = async () => {
     try {
       if (carregando || !colunaItem || !descItemNovo) {
         return;
       }
       setCarregando(true);
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/novoItem`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ colunaItem, descItemNovo, projeto }),
-      });
+      const body = { colunaItem, descItemNovo, projeto };
+      const response = await Api({ body, rota: "novoItem", method: "POST" });
 
-      const data = await res.json();
-      if (res.ok) {
-        setListaAtividades([
-          ...listas,
-          data
-        ])    
-      } else {
-        setErro(data.message);
-        setTimeout(() => {
-          setErro("");
-        }, 5000);
-      }
-      setCarregando(false);
-      setModalItem(false)
-      setDescItem('')
+      setListaAtividades([
+        ...listas,
+        response
+      ])
     } catch (error) {
       setErro("Erro ao criar item.");
       setTimeout(() => {
         setErro("");
       }, 5000);
+    } finally {
       setCarregando(false);
       setModalItem(false)
-      setDescItem('')  
+      setDescItem('')
     }
   }
 
@@ -262,9 +206,6 @@ function ListaArrastavel({ lista, tituloLista, listaProjetos }: PropsItem) {
     <>
       <div className="cabecalho-lista">
         <div className="titulo-lista">{tituloLista}</div>
-        <button className="config-lista" title='Adicionar coluna' onClick={() => setModalColuna(true)}>
-            <Image src="/plus.png" className="config-icon" alt="Logo da empresa" width={20} height={20} />
-        </button>
       </div>
       {listas.length > 0 ? 
         <DndContext
@@ -328,22 +269,6 @@ function ListaArrastavel({ lista, tituloLista, listaProjetos }: PropsItem) {
           <Image src="/sem-dados.gif" alt="Nenhum dado encontrado" className="img-sem-dados" width={200} height={200} />
           <p>Nenhum dado encontrado</p>
         </div>
-      }
-      {modalColuna && 
-        <Modal
-          titulo="Adicionar Coluna"
-          onClose={() => setModalColuna(false)}
-          btn={<button className='btn-primary' onClick={novaColuna} disabled={!colunaNome || carregando}>
-            {carregando ? 'Salvando...' : 'Salvar'}
-          </button>}
-          >
-          <Input
-            text='Nome da coluna '
-            value={colunaNome}
-            setValue={setNomeColuna}
-            label='nome-coluna'
-          />
-        </Modal>
       }
       {modalItem && 
         <Modal
