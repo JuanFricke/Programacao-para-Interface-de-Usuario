@@ -20,8 +20,24 @@ type CreateUserRequest struct {
 	Email    string `json:"email"`
 }
 
+type CreateResponse struct {
+	StatusCode int    `json:"statusCode"`
+	Status     string `json:"status"`
+}
+
 type ProjectRequest struct {
 	UserID int `json:"userId"`
+}
+
+type LoginRequest struct {
+	Email    string `json:"email"`
+	Password string `json:"password"`
+}
+
+type LoginResponse struct {
+	StatusCode int    `json:"statusCode"`
+	UserId     int    `json:"userId,omitempty"`
+	Error      string `json:"error,omitempty"`
 }
 
 type TaskRequest struct {
@@ -29,9 +45,10 @@ type TaskRequest struct {
 }
 
 type User struct {
-	ID       string `json:"id"`
+	ID       int    `json:"id"`
 	Username string `json:"username"`
 	Email    string `json:"email"`
+	Password string `json:"password"`
 }
 
 type Project struct {

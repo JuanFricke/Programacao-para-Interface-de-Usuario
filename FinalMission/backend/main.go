@@ -11,8 +11,8 @@ import (
 func main() {
 	router := mux.NewRouter()
 
-	// router.HandleFunc("/api/login/", getBooks).Methods("POST")
-	router.HandleFunc("/api/signup", createUser).Methods("POST")
+	router.HandleFunc("/api/login", login).Methods("POST")
+	router.HandleFunc("/api/signup", signup).Methods("POST")
 	// router.HandleFunc("/api/tasks", createBook).Methods("GET")
 	router.HandleFunc("/api/projects", getUserProjects).Methods("POST")
 
