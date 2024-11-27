@@ -24,7 +24,8 @@ func createUser(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Criptografando a senha com HMAC
-	encryptedPassword := hmacEncrypt(request.Password, "teste")
+	//encryptedPassword := hmacEncrypt(request.Password, "teste") //Comentado por Vinícius - Vai ser gerado o hash com funcao de banco no INSERT
+	encryptedPassword := request.Password //Vinicius
 
 	// Chama a função de inserção no banco de dados
 	userID, err := insertUser(CreateUserRequest{
