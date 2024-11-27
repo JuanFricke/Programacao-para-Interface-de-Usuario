@@ -10,6 +10,11 @@ import (
 	"github.com/gorilla/mux"
 )
 
+func apiOk(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(map[string]string{"message": "API is running"})
+}
+
 func getUserProjects(w http.ResponseWriter, r *http.Request) {
 	if r.Method != http.MethodPost {
 		http.Error(w, "Invalid request method", http.StatusMethodNotAllowed)
@@ -64,7 +69,7 @@ func createUser(w http.ResponseWriter, r *http.Request) {
 
 	// -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
-	response := insertUser(createUserRequest)
+	// response := insertUser(createUserRequest)
 
 }
 
