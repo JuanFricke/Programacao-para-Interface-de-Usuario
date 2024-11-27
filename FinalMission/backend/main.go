@@ -31,6 +31,8 @@ func main() {
 	router.HandleFunc("/api", apiOk).Methods("GET")
 	router.HandleFunc("/api/login", loginUser).Methods("POST")
 	router.HandleFunc("/api/signup", createUser).Methods("POST")
+	router.HandleFunc("/api/newTask", newTask).Methods("POST")
+	router.HandleFunc("/api/getTasks", getTasks).Methods("GET")
 
 	// Inicia o servidor
 	log.Println("Server starting on :5000")

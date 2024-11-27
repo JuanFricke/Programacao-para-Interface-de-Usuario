@@ -18,6 +18,7 @@ func loadEnv() {
 		log.Fatalf("Error loading .env file")
 	}
 }
+
 func initDb() {
 	loadEnv()
 

@@ -52,3 +52,20 @@ type Task struct {
 	Status      string `json:"status"`
 	Color       string `json:"color"`
 }
+
+type NewTaskRequest struct {
+	Title       string `json:"title"`
+	Description string `json:"description"`
+	Status      string `json:"status"`
+	ProjectID   int    `json:"project_id"`
+	Color       string `json:"color"`
+}
+
+type NewTaskResponse struct {
+	ID          int    `json:"id"`
+	Title       string `json:"title"`
+	Description string `json:"description"`
+	Status      string `json:"status"`
+	ProjectID   int    `json:"project_id"`
+	Color       string `json:"color"`
+}
