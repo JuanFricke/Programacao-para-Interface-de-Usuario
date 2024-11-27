@@ -59,7 +59,7 @@ func closeDb() {
 
 func insertUser(createUserRequest CreateUserRequest) (int, error) {
 	/*sqlQuery := `
-		INSERT INTO users (username, password, email) 
+		INSERT INTO users (username, password, email)
 		VALUES ($1, $2, $3)
 		RETURNING id
 	`*/
