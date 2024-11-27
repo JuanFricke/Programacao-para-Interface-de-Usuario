@@ -2,29 +2,19 @@ package projectsApi
 
 import (
 	"backend/dbConnection"
-	"database/sql"
 	"fmt"
 	"log"
 
 	_ "github.com/lib/pq"
 )
 
-func checkDBConnection() *sql.DB {
+func checkProjectExists(userID int, projectTitle string) bool {
 	db := dbConnection.Db()
-	if db == nil {
-		log.Fatal("Database connection is nil")
-	}
-	return db
-}
-
-func checkProjectExists(projectID int, projectTitle string) bool {
-	db := checkDBConnection()
-	sql := "SELECT id FROM projects WHERE id = $1 AND title = $2"
+	sql := "SELECT id FROM projects WHERE user_id = $1 AND title = $2"
 	var id int
-	err := db.QueryRow(sql, projectID, projectTitle).Scan(&id)
+	err := db.QueryRow(sql, userID, projectTitle).Scan(&id)
 
 	if err != nil {
-		log.Fatal(err)
 		return false
 	}
 
@@ -32,7 +22,7 @@ func checkProjectExists(projectID int, projectTitle string) bool {
 }
 
 func selectProjects(projectRequest getProjectsRequest) ([]Project, []Project, []Project) {
-	db := checkDBConnection()
+	db := dbConnection.Db()
 	if db == nil {
 		return nil, nil, nil
 	}
@@ -81,9 +71,11 @@ func insertProject(projectRequest addProjectRequest) addProjectResponse {
 		log.Fatal("Database connection is nil")
 		return addProjectResponse{StatusCode: 500, Status: "Database connection error"}
 	}
+	log.Print("Verifing if project Exists")
 	if checkProjectExists(projectRequest.UserID, projectRequest.Title) {
 		return addProjectResponse{StatusCode: 500, Status: "Project Already Exists"}
 	}
+	log.Print("Project doesn't exist, Inserting Project")
 	// TODO : ADD VERIFICATION TO SEE IF THE USER EXISTS
 	sql := "INSERT INTO projects (user_id, title, description, status, color) VALUES ($1, $2, $3, $4, $5) RETURNING id"
 	var id int
@@ -92,5 +84,6 @@ func insertProject(projectRequest addProjectRequest) addProjectResponse {
 		log.Fatal(err)
 		return addProjectResponse{StatusCode: 500, Status: "Error inserting project"}
 	}
-	return addProjectResponse{ProjectId: id, StatusCode: 200, Status: fmt.Sprintf(`Project with name ${projectRequest.Title} inserted successfully`)}
+	log.Print("Project inserted successfully")
+	return addProjectResponse{ProjectId: id, StatusCode: 200, Status: fmt.Sprintf(`Project with name %v inserted successfully`, projectRequest.Title)}
 }
