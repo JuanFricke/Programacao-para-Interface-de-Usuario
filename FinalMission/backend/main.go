@@ -1,6 +1,10 @@
 package main
 
 import (
+	"backend/dbConnection"
+	"backend/projectsApi"
+	"backend/taskApi"
+	"backend/userApi"
 	"io"
 	"log"
 	"net/http"
@@ -23,16 +27,20 @@ func main() {
 	log.SetOutput(multiWriter)
 
 	// Teste de inicialização do banco de dados
-	initDb()
-	defer closeDb() // Garantir que o banco de dados seja fechado quando o servidor for interrompido
+	dbConnection.InitDb()
+	defer dbConnection.CloseDb() // Garantir que o banco de dados seja fechado quando o servidor for interrompido
 
 	// Define as rotas
-	router.HandleFunc("/api/projects", getUserProjects).Methods("POST")
 	router.HandleFunc("/api", apiOk).Methods("GET")
-	router.HandleFunc("/api/login", loginUser).Methods("POST")
-	router.HandleFunc("/api/signup", createUser).Methods("POST")
-	router.HandleFunc("/api/newTask", newTask).Methods("POST")
-	router.HandleFunc("/api/getTasks", getTasks).Methods("GET")
+	// User Routes
+	router.HandleFunc("/api/login", userApi.LoginUser).Methods("POST")
+	router.HandleFunc("/api/signup", userApi.SignupUser).Methods("POST")
+	// Tasks Routes
+	router.HandleFunc("/api/add/task", taskApi.AddTask).Methods("POST")
+	router.HandleFunc("/api/get/tasks", taskApi.GetTasks).Methods("POST")
+	// Projects Routes
+	router.HandleFunc("/api/get/projects", projectsApi.GetProjects).Methods("POST")
+	router.HandleFunc("/api/add/project", projectsApi.AddProject).Methods("POST")
 
 	// Inicia o servidor
 	log.Println("Server starting on :5000")
