@@ -4,26 +4,45 @@ import (
 	"database/sql"
 	"fmt"
 	"log"
+	"os"
 
+	"github.com/joho/godotenv"
 	_ "github.com/lib/pq"
 )
 
 var db *sql.DB
 
-func initDb() {
-	var err error
-	// Example connection string: "postgres://username:password@localhost/dbname?sslmode=disable"
-	connStr := "host=finalmission-postgres-1 port=5432 user=admin password=admin dbname=database sslmode=disable"
-	db, err = sql.Open("postgres", connStr)
-
+func loadEnv() {
+	err := godotenv.Load()
 	if err != nil {
-		log.Fatalf("Tried to Connect to the database, but failed: %v", err)
+		log.Fatalf("Error loading .env file")
 	}
-	// Test the connection
+}
+func initDb() {
+	loadEnv()
+
+	// Obtém as variáveis de ambiente carregadas do .env
+	dbHost := os.Getenv("POSTGRES_HOST")
+	dbPort := os.Getenv("POSTGRES_PORT")
+	dbUser := os.Getenv("POSTGRES_USER")
+	dbPassword := os.Getenv("POSTGRES_PASSWORD")
+	dbName := os.Getenv("POSTGRES_DB")
+	dbSslMode := os.Getenv("POSTGRES_SSLMODE")
+
+	// Monta a string de conexão
+	connStr := fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=%s", dbHost, dbPort, dbUser, dbPassword, dbName, dbSslMode)
+
+	var err error
+	db, err = sql.Open("postgres", connStr)
+	if err != nil {
+		log.Fatalf("Failed to open DB connection: %v", err)
+	}
+
+	// Testa a conexão com o banco de dados
 	if err = db.Ping(); err != nil {
-		log.Fatalf("Tried Ping the database, but failed: %v", err)
+		log.Fatalf("Failed to ping database: %v", err)
 	}
-	log.Println("Connected to the database!")
+	log.Println("Successfully connected to the database!")
 }
 
 func closeDb() {
@@ -32,22 +51,20 @@ func closeDb() {
 }
 
 func insertUser(createUserRequest CreateUserRequest) sql.Result {
-	sql := fmt.Sprintf(`
-	INSERT INTO users (username, password, email) VALUES ('%s', '%s', '%s')
-	`, createUserRequest.Username, createUserRequest.Password, createUserRequest.Email)
+	sqlQuery := `
+		INSERT INTO users (username, password, email) 
+		VALUES ($1, $2, $3)
+	`
 
-	initDb()
-
-	result, err := db.Exec(sql)
+	// Executa a consulta de inserção
+	result, err := db.Exec(sqlQuery, createUserRequest.Username, createUserRequest.Password, createUserRequest.Email)
 
 	if err != nil {
-		log.Fatal(err)
+		log.Printf("Error executing query: %s, Params: %v, Error: %v", sqlQuery, createUserRequest, err)
 		return nil
 	}
-	log.Printf("User inserted: %v", result)
 
-	closeDb()
-
+	log.Printf("Successfully inserted user: %v", createUserRequest.Username)
 	return result
 }
 
