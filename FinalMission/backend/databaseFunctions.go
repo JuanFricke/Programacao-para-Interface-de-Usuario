@@ -58,9 +58,14 @@ func closeDb() {
 }
 
 func insertUser(createUserRequest CreateUserRequest) (int, error) {
-	sqlQuery := `
+	/*sqlQuery := `
 		INSERT INTO users (username, password, email) 
 		VALUES ($1, $2, $3)
+		RETURNING id
+	`*/
+	sqlQuery := `
+		INSERT INTO users (username, password, email) 
+		VALUES ($1, (select encode(hmac($2, '', 'md5'), 'base64')), $3)
 		RETURNING id
 	`
 
