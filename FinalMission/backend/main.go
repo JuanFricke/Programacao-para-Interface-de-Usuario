@@ -37,9 +37,9 @@ func main() {
 	router.HandleFunc("/api/signup", userApi.SignupUser).Methods("POST")
 	// Tasks Routes
 	router.HandleFunc("/api/add/task", taskApi.AddTask).Methods("POST")
-	router.HandleFunc("/api/get/tasks", taskApi.GetTasks).Methods("POST")
+	router.HandleFunc("/api/get/tasks", taskApi.GetTasks).Methods("GET")
 	// Projects Routes
-	router.HandleFunc("/api/get/projects", projectsApi.GetProjects).Methods("POST")
+	router.HandleFunc("/api/get/projects", projectsApi.GetProjects).Methods("GET")
 	router.HandleFunc("/api/add/project", projectsApi.AddProject).Methods("POST")
 
 	// Inicia o servidor
