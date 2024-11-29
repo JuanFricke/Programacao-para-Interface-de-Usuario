@@ -61,7 +61,7 @@
   padding: 10px;
 }
 
-@media (max-width: 425px) {
+@media (max-width: 460px) {
   .botao-container {
     display: inline-block;
     position: fixed;
@@ -69,6 +69,7 @@
     top: 0;
     left: 0;
     z-index: 1001;
+    background: #fafafa;
   }
 
   .menu-lateral {

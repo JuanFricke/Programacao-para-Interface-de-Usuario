@@ -130,7 +130,15 @@ img {
   margin-left: 8%;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 460px) {
+  .container-pages {
+    margin-left: 0;
+    margin-top: 20px;
+    width: 100%;
+  }
+}
+
+@media (min-width: 461px) and (max-width: 768px) {
   .container-pages {
     margin-left: 100px;
     padding: 20px;
