@@ -266,7 +266,7 @@ function ListaArrastavel({ lista, tituloLista, listaProjetos }: PropsItem) {
         </DndContext>
         :
         <div className="container-vazio">
-          <Image src="/sem-dados.gif" alt="Nenhum dado encontrado" className="img-sem-dados" width={200} height={200} />
+          <Image src="/sem-dados.gif" unoptimized alt="Nenhum dado encontrado" className="img-sem-dados" width={200} height={200} />
           <p>Nenhum dado encontrado</p>
         </div>
       }
