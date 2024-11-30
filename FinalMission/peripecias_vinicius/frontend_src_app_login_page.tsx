@@ -1,4 +1,5 @@
-//page.tsx de frontend\app\cadastro\page.tsx
+// Copia de frontend\src\app\login\page.tsx
+
 "use client";
 
 import { useState } from 'react';
@@ -10,42 +11,35 @@ import './style.css';
 import Link from 'next/link';
 import { Api } from '@/apiindex';
 
-function Cadastro() {
+function Login() {
   const router = useRouter()
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
-  const [senhaConfirma, setSenhaConfirma] = useState('');
   const [erro, setErro] = useState('');
   const [carregando, setCarregando] = useState(false);
 
   const entrar = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
-    event.preventDefault()
-    //const body = { email, senha, senhaConfirma };  //Comentado por Vinícius
-    
-    /*
-      Vinícius
-      Criei um nome de usuário fixo para enviar no JSON
-      mas poderia ser criado um campo para isso no frontend
-    */
-    usuario = "nome_de_usuario"
-    const body = {usuario, senha, email};  
-    
+    event.preventDefault();
+
+    //Vinícius - Estrutura do JSON está correta
+    const body = { email, senha };  
+
     try {
-      if (carregando || !email || !senha || !senhaConfirma) {
+      if (carregando || !email || !senha) {
         return;
       }
       setCarregando(true);
-      //Vinícius - Alterei a rota
-      const response = await Api({ body, rota: "/api/signup", method: "POST" });
+      //Vinícius - Alterei a rota de login
+      const response = await Api({ body, rota: "/api/login" });
 
       /*
         Vinícius
         Implementei testes em função do status HTTP da requisição
         para ler o JSON de retorno e mostrar os erros
       */
-      if (response.StatusCode === 201){
-        //Sucesso: Armazena os dados no localStorage
-        
+      if (response.statusCode === 200){
+        //Sucesso: Armazenar os dados de autenticação
+
         /*
           Vinícius
           Não existe retorno de token atualmente no backend
@@ -56,15 +50,12 @@ function Cadastro() {
 
         localStorage.setItem("id_usuario", response.id_usuario);
         router.push("/painel");
-      } else if (response.StatusCode === 409) {
-        //Usuário já existe
-        setErro("Usuário já cadastrado.");
       } else {
-        //Outro erro inesperado
-        setErro(response.Error || "Erro desconhecido.");
+        //Se o status não for 200, exibe a mensagem de erro vinda da request
+        setErro(response.error || "Erro ao tentar fazer login.");
       }
     } catch (error) {
-      setErro("Erro ao efetuar o cadastro.");
+      setErro("Erro ao tentar fazer login.");
     } finally {
       setCarregando(false);
     }
@@ -73,7 +64,7 @@ function Cadastro() {
   return (
     <main className='container-principal'>
       <Image src="/pastas.svg" className="image-pastas" alt="Pastas" width={500} height={464} />
-      <CardAcesso title={'Cadastro'} onSubmit={entrar}>
+      <CardAcesso title={'Entrar'} onSubmit={entrar}>
         <Input
           text='E-mail: '
           value={email}
@@ -86,32 +77,24 @@ function Cadastro() {
           text='Senha: '
           value={senha}
           setValue={setSenha}
-          label='password'
-          type='password'
-          required={true}
-        />
-        <Input
-          text='Confirmar senha: '
-          value={senhaConfirma}
-          setValue={setSenhaConfirma}
-          label='confirma-password'
+          label='passwprd'
           type='password'
           required={true}
         />
         <div className="container-botao">
-          <button className='btn btn-primary' type='submit' disabled={!((senha == senhaConfirma) && email && !carregando)}>
-            {carregando ? 'Cadastrando...' : 'Cadastrar'}
+          <button className='btn btn-primary' type='submit' disabled={!email || !senha || carregando}>
+            {carregando ? 'Entrando...' : 'Entrar'}
           </button>
         </div>
         {erro &&
           <p className='msg-erro'>{erro}</p>
         }
         <div className="container-botao">
-          <Link href='/login' className='btn btn-secondary'>Login</Link>
+          <Link href='/cadastro' className='btn btn-secondary'>Cadastrar</Link>
         </div>
       </CardAcesso>
     </main>
   );
 }
 
-export default Cadastro;
+export default Login;
