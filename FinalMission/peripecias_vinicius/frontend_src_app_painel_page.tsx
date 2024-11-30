@@ -29,8 +29,9 @@ const Projetos: React.FC<PropsProjeto> = ({ nome_user = 'usuário', }) => {
                     Vinícius
                     Alterei a rota para buscar as tasks 
                     (daria pra avaliar em fazer uma rota get e passar o id do usuário pela url)
+                    Coloquei explicitamente o método POST também.
                 */
-                const response = await Api({ body: { id_usuario }, rota: "/api/get/tasks" });
+                const response = await Api({ body: { id_usuario }, rota: "/api/get/tasks", method: 'POST' });
 
                 /*
                     Vinícius
@@ -52,8 +53,9 @@ const Projetos: React.FC<PropsProjeto> = ({ nome_user = 'usuário', }) => {
                     Vinícius
                     Alterei a rota para buscar os projects 
                     (daria pra avaliar em fazer uma rota get e passar o id do usuário pela url)
+                    Coloquei explicitamente o método POST também.
                 */
-                const response = await Api({ body: { id_usuario }, rota: "/api/get/projects" });
+                const response = await Api({ body: { id_usuario }, rota: "/api/get/projects", method: 'POST' });
 
                 /*
                     Vinícius

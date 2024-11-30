@@ -29,8 +29,11 @@ function Login() {
         return;
       }
       setCarregando(true);
-      //Vinícius - Alterei a rota de login
-      const response = await Api({ body, rota: "/api/login" });
+      /*
+        Vinícius - Alterei a rota de login
+        Coloquei explicitamente o método POST também.
+      */
+      const response = await Api({ body, rota: "/api/login", method: 'POST' });
 
       /*
         Vinícius
