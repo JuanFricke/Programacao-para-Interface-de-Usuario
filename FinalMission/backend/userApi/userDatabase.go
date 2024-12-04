@@ -19,7 +19,7 @@ func insertUser(userRequest SignupRequest) (int, error) {
 	`
 
 	var userID int
-	err := db.QueryRow(sqlQuery, "", userRequest.Password, userRequest.Email).Scan(&userID)
+	err := db.QueryRow(sqlQuery, userRequest.username, userRequest.Password, userRequest.Email).Scan(&userID)
 	if err != nil {
 		log.Printf("Error executing query: %s, Error: %v", sqlQuery, err)
 		return 0, err
