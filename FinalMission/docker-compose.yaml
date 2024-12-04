@@ -1,4 +1,5 @@
 services:
+
   postgres:
     image: postgres:latest
     env_file:
@@ -8,9 +9,6 @@ services:
     volumes:
       - pgdata:/var/lib/postgresql/data # Save data in Windows
       # - ./database:/var/lib/postgresql/data # Save data in Linux
-    networks:
-      - dev-net
-
   frontend:
     build:
       context: ./frontend/
@@ -40,7 +38,5 @@ services:
 networks:
   dev-net:
     driver: bridge
-volumes:
-  pgdata:
 volumes:
   pgdata:

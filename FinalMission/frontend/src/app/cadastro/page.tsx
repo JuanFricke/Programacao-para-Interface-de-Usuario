@@ -11,6 +11,7 @@ import { Api } from '@/apiindex';
 
 function Cadastro() {
   const router = useRouter()
+  const [usuario, setUser] = useState('');
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
   const [senhaConfirma, setSenhaConfirma] = useState('');
@@ -19,17 +20,15 @@ function Cadastro() {
 
   const entrar = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
     event.preventDefault()
-    const body = { email, senha, senhaConfirma };  
+    const body = { email, senha, usuario };  
 
     try {
-      if (carregando || !email || !senha || !senhaConfirma) {
-        return;
-      }
+      // if (carregando || !email || !senha || !usuario) {
+      //   return;
+      // }
       setCarregando(true);
-      const response = await Api({ body, rota: "signup", method: "POST" });
-
-      // localStorage.setItem("auth_token", response.token);
-      // localStorage.setItem("id_usuario", response.id_usuario);
+      const response = await Api({ body, rota: "signup", method: "POST" })
+      
       if (response.statusCode == 201) {
         router.push("/login");
       } else {
@@ -46,6 +45,13 @@ function Cadastro() {
     <main className='container-principal'>
       <Image src="/pastas.svg" className="image-pastas" alt="Pastas" width={500} height={464} />
       <CardAcesso title={'Cadastro'} onSubmit={entrar}>
+        <Input
+          text='Usuário: '
+          value={usuario}
+          setValue={setUser}
+          label='user'
+          required={true}
+        />
         <Input
           text='E-mail: '
           value={email}
