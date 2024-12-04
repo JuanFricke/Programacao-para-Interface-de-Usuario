@@ -1,13 +1,13 @@
 services:
-  # frontend:
-  #   build:
-  #     context: ./frontend/
-  #   volumes:
-  #     - ./frontend:/usr/app/
-  #   ports:
-  #     - "3000:3000"
-  #   networks:
-  #     - dev-net
+  frontend:
+    build:
+      context: ./frontend/
+    volumes:
+      - ./frontend:/usr/app/
+    ports:
+      - "3000:3000"
+    networks:
+      - dev-net
 
   backend:
     build:
