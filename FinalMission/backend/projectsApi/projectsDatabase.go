@@ -33,7 +33,7 @@ func selectProjects(projectRequest getProjectsRequest) ([]Project, []Project, []
 	rows, err := db.Query(sql, projectRequest.UserID)
 
 	if err != nil {
-		log.Fatal(err)
+		log.Print(err)
 		return nil, nil, nil
 	}
 
@@ -47,7 +47,7 @@ func selectProjects(projectRequest getProjectsRequest) ([]Project, []Project, []
 		var project Project
 		err := rows.Scan(&project.ID, &project.Title, &project.Description, &project.Status, &project.UserID, &project.Color)
 		if err != nil {
-			log.Fatal(err)
+			log.Print(err)
 			return nil, nil, nil
 		}
 
@@ -68,7 +68,7 @@ func selectProjects(projectRequest getProjectsRequest) ([]Project, []Project, []
 func insertProject(projectRequest addProjectRequest) addProjectResponse {
 	db := dbConnection.Db()
 	if db == nil {
-		log.Fatal("Database connection is nil")
+		log.Print("Database connection is nil")
 		return addProjectResponse{StatusCode: 500, Status: "Database connection error"}
 	}
 	log.Print("Verifing if project Exists")
@@ -81,7 +81,7 @@ func insertProject(projectRequest addProjectRequest) addProjectResponse {
 	var id int
 	err := db.QueryRow(sql, projectRequest.UserID, projectRequest.Title, projectRequest.Description, projectRequest.Status, projectRequest.Color).Scan(&id)
 	if err != nil {
-		log.Fatal(err)
+		log.Print(err)
 		return addProjectResponse{StatusCode: 500, Status: "Error inserting project"}
 	}
 	log.Print("Project inserted successfully")

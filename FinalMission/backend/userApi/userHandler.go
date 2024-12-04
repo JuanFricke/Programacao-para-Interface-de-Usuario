@@ -24,8 +24,8 @@ func SignupUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if !checkUserExists(request.Email) {
-		log.Fatal("User already exists")
+	if checkUserExists(request.Email) {
+		log.Print("User already exists")
 		json.NewEncoder(w).Encode(SignupResponse{StatusCode: http.StatusConflict, Error: "User Already Exists"})
 		return
 	}
@@ -39,7 +39,7 @@ func SignupUser(w http.ResponseWriter, r *http.Request) {
 
 	// Verifica erros na inserção
 	if err != nil {
-		log.Fatalf("Error inserting user: %v", err)
+		log.Printf("Error inserting user: %v", err)
 		json.NewEncoder(w).Encode(SignupResponse{StatusCode: http.StatusInternalServerError, Error: "Failed to insert user"})
 		return
 	}
@@ -65,7 +65,7 @@ func LoginUser(w http.ResponseWriter, r *http.Request) {
 	// var storedUsername string
 	// err := db.QueryRow("SELECT username, password FROM users WHERE username = $1", request.Username).Scan(&storedUsername, &storedPassword)
 	if !checkUserExists(request.Email) {
-		log.Fatal("User does not exist")
+		log.Print("User does not exist")
 		http.Error(w, "User not found", http.StatusUnauthorized)
 		return
 	}

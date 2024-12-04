@@ -5,27 +5,25 @@ import (
 	"io"
 	"log"
 	"net/http"
+	"strconv"
+
+	"github.com/gorilla/mux"
 )
 
 func GetProjects(w http.ResponseWriter, r *http.Request) {
-	if r.Method != http.MethodPost {
-		http.Error(w, "Invalid request method", http.StatusMethodNotAllowed)
-		return
-	}
-	body, err := io.ReadAll(r.Body)
+	params := mux.Vars(r)
+	id, err := strconv.Atoi(params["id"])
+
 	if err != nil {
-		http.Error(w, "Unable to read request body", http.StatusBadRequest)
+		http.Error(w, "Invalid ID parameter", http.StatusBadRequest)
 		return
 	}
-	defer r.Body.Close()
-
-	var projectRequest getProjectsRequest
-	if err := json.Unmarshal(body, &projectRequest); err != nil {
-		http.Error(w, "Invalid JSON format", http.StatusBadRequest)
-		return
+	
+	projectRequest := getProjectsRequest{
+		UserID: id,
 	}
 
-	log.Println("Json Received and parsing Complete")
+	log.Println("Getting Projects...")
 
 	// -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 

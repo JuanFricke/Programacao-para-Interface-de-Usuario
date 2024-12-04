@@ -21,7 +21,7 @@ func insertUser(userRequest SignupRequest) (int, error) {
 	var userID int
 	err := db.QueryRow(sqlQuery, userRequest.Username, userRequest.Password, userRequest.Email).Scan(&userID)
 	if err != nil {
-		log.Fatalf("Error executing query: %s, Error: %v", sqlQuery, err)
+		log.Printf("Error executing query: %s, Error: %v", sqlQuery, err)
 		return 0, err
 	}
 
@@ -39,9 +39,11 @@ func checkUserExists(email string) bool {
 	`
 	err := db.QueryRow(sqlQuery, email).Scan(&count)
 	if err != nil {
-		log.Fatalf("Error executing query: %s, Error: %v", sqlQuery, err)
+		log.Printf("Error executing query: %s, Error: %v", sqlQuery, err)
 		return false
 	}
+
+	log.Printf("Found %d users", count)
 
 	if count > 0 {
 		return true

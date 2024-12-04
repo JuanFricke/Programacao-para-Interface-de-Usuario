@@ -17,7 +17,7 @@ func insertTask(taskRequest createTaskRequest) (int, error) {
 	err := db.QueryRow(sqlQuery, taskRequest.Title, taskRequest.Description, taskRequest.Status, taskRequest.ProjectID, taskRequest.Color).Scan(&newTaskID)
 
 	if err != nil {
-		log.Fatalf("Error executing query: %s, Error: %v", sqlQuery, err)
+		log.Printf("Error executing query: %s, Error: %v", sqlQuery, err)
 		return 0, err
 	}
 
@@ -27,15 +27,26 @@ func insertTask(taskRequest createTaskRequest) (int, error) {
 
 func selectTasks(request getTaskRequest) ([]task, []task, []task, error) {
 	db := dbConnection.Db()
-	sqlQuery := `
-		SELECT id, title, description, status, project_id, color 
+	sqlQuery := ""
+	if request.IsUser {
+		sqlQuery = `
+		SELECT t.id, t.title, t.description, t.status, t.project_id, t.color, p.title
+		FROM tasks t
+		INNER JOIN projects p ON t.project_id = p.id
+		WHERE p.user_id = $1
+		`
+	} else {
+		sqlQuery = `
+		SELECT id, title, description, status, project_id, color, p.title
 		FROM tasks
+		INNER JOIN projects p ON t.project_id = p.id
 		WHERE project_id = $1
-	`
+		`
+	}
 
 	// Inicializa a conexão com o banco de dados
 
-	rows, err := db.Query(sqlQuery, request.ProjectID)
+	rows, err := db.Query(sqlQuery, request.ID)
 
 	if err != nil {
 		log.Printf("Error executing query: %s, Error: %v", sqlQuery, err)
@@ -49,7 +60,7 @@ func selectTasks(request getTaskRequest) ([]task, []task, []task, error) {
 
 	for rows.Next() {
 		var task task
-		err := rows.Scan(&task.ID, &task.Title, &task.Description, &task.Status, &task.ProjectID, &task.Color)
+		err := rows.Scan(&task.ID, &task.Title, &task.Description, &task.Status, &task.ProjectID, &task.Color, &task.ProjectName)
 		if err != nil {
 			log.Printf("Error scanning rows: %v", err)
 			return nil, nil, nil, err
