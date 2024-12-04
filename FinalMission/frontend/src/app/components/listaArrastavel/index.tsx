@@ -172,6 +172,12 @@ function ListaArrastavel({ lista, tituloLista, listaProjetos }: PropsItem) {
     return column ? column : null;
   };
 
+  for (var element of listas) {
+    if (!element.atividades) {
+      element.atividades = Array<Atividade>();
+    }
+  }
+
   const criarNovaAtiv = (nome_coluna: string) => {
     setColunaItem(nome_coluna);
     setModalItem(true)
@@ -182,9 +188,10 @@ function ListaArrastavel({ lista, tituloLista, listaProjetos }: PropsItem) {
       if (carregando || !colunaItem || !descItemNovo) {
         return;
       }
+
       setCarregando(true);
-      const body = { colunaItem, descItemNovo, projeto };
-      const response = await Api({ body, rota: "novoItem", method: "POST" });
+      const body = { title : descItemNovo, status: colunaItem.toLowerCase(), description : "", project_id : parseInt(projeto)};
+      const response = await Api({ body, rota: "add/task", method: "POST" });
 
       setListaAtividades([
         ...listas,

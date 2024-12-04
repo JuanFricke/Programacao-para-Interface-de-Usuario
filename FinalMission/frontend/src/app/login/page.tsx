@@ -25,7 +25,7 @@ function Login() {
         return;
       }
       setCarregando(true);
-      const response = await Api({ body, rota: "login" });
+      const response = await Api({ body, rota: "login" , method: "POST" });
 
       localStorage.setItem("auth_token", response.token);
       localStorage.setItem("id_usuario", response.id_usuario);

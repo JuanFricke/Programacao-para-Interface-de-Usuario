@@ -6,7 +6,7 @@ import ListaArrastavel from '@/components/listaArrastavel';
 import "./style.css";
 import { SemDados } from '@/components/semDados';
 import { Coluna, Projeto } from '@/utilsatividades';
-import { Api } from '@/apiindex';
+import { Api, GetApi } from '@/apiindex';
 
 interface PropsProjeto {
     nome_user?: string
@@ -23,8 +23,8 @@ const Projetos: React.FC<PropsProjeto> = ({ nome_user = 'usuário', }) => {
         const fetchAtividades = async () => {
             try {
                 setCarregando(true);
-                const response = await Api({ body: { id_usuario }, rota: "atividades" });
-                setListaAtividades(response)
+                const response = await GetApi("get/user/tasks", id_usuario ?? "" );
+                setListaAtividades(response.tasks)
             } catch (error) {
                 setCarregando(false);
             }
@@ -33,8 +33,8 @@ const Projetos: React.FC<PropsProjeto> = ({ nome_user = 'usuário', }) => {
         const fetchProjetos = async () => {
             try {
                 setCarregando(true);
-                const response = await Api({ body: { id_usuario }, rota: "projetos" });
-                setListaProjetos(response)
+                const response = await GetApi("get/projects", id_usuario ?? "" );
+                setListaProjetos(response.projects)
             } catch (error) {
                 setCarregando(false);
             }
@@ -42,7 +42,7 @@ const Projetos: React.FC<PropsProjeto> = ({ nome_user = 'usuário', }) => {
         
         fetchAtividades();
         fetchProjetos();
-    })
+    }, []);
 
     return (
         <Home>
