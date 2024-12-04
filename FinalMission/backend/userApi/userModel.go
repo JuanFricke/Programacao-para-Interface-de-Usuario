@@ -1,7 +1,7 @@
 package userApi
 
 type SignupRequest struct {
-	// Username string `json:"username"`
+	Username string `json:"username"`
 	// Password string `json:"password"`
 	Email    string `json:"email"`
 	Password string `json:"senha"`
