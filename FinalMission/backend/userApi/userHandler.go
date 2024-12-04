@@ -7,6 +7,8 @@ import (
 	"encoding/json"
 	"log"
 	"net/http"
+
+	"github.com/google/uuid"
 )
 
 func hmacEncrypt(password, secret string) string {
@@ -73,18 +75,19 @@ func LoginUser(w http.ResponseWriter, r *http.Request) {
 	user, err := checkUserCredentials(request)
 
 	if err != nil {
-		// http.Error(w, "Invalid credentials", http.StatusUnauthorized)
-		json.NewEncoder(w).Encode(LoginResponse{StatusCode: http.StatusUnauthorized, Error: "Invalid credentials"})
+		http.Error(w, "Invalid credentials", http.StatusUnauthorized)
+		// json.NewEncoder(w).Encode(LoginResponse{StatusCode: http.StatusUnauthorized, Error: "Invalid credentials"})
 		return
 	}
 
-	// // Verificar se a senha criptografada corresponde
-	// if user.Password != encryptedPassword {
-	// 	http.Error(w, "Invalid credentials", http.StatusUnauthorized)
-	// 	return
-	// }
+	token := generateToken()
 
 	// Sucesso no login
 	w.WriteHeader(http.StatusOK)
-	json.NewEncoder(w).Encode(LoginResponse{StatusCode: http.StatusOK, UserId: user.ID})
+	// json.NewEncoder(w).Encode(LoginResponse{StatusCode: http.StatusOK, UserId: user.ID})
+	json.NewEncoder(w).Encode(LoginResponse{UserId: user.ID, Token: token})
+}
+
+func generateToken() string {
+	return uuid.New().String()
 }

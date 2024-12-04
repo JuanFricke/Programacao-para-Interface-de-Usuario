@@ -19,13 +19,13 @@ func insertUser(userRequest SignupRequest) (int, error) {
 	`
 
 	var userID int
-	err := db.QueryRow(sqlQuery, userRequest.Username, userRequest.Password, userRequest.Email).Scan(&userID)
+	err := db.QueryRow(sqlQuery, "", userRequest.Password, userRequest.Email).Scan(&userID)
 	if err != nil {
 		log.Printf("Error executing query: %s, Error: %v", sqlQuery, err)
 		return 0, err
 	}
 
-	log.Printf("Successfully inserted user: %v with ID %d", userRequest.Username, userID)
+	log.Printf("Successfully inserted user: %v with ID %d", userRequest.Email, userID)
 	return userID, nil
 }
 

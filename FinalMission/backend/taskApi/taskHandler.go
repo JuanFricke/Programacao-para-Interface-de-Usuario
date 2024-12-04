@@ -29,9 +29,18 @@ func AddTask(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Cria a resposta com os dados da nova tarefa
+	// response := createTaskResponse{
+	// 	TaskId:     newTaskID,
+	// 	StatusCode: http.StatusCreated,
+	// }
+
+	color, projectName, err := retrieveProjectInfo(taskRequest.ProjectID)
+
 	response := createTaskResponse{
-		TaskId:     newTaskID,
-		StatusCode: http.StatusCreated,
+		ID:          newTaskID,
+		Title:       taskRequest.Title,
+		ProjectName: projectName,
+		Color:       color,
 	}
 
 	// Envia a resposta como JSON

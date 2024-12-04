@@ -21,6 +21,26 @@ func checkProjectExists(userID int, projectTitle string) bool {
 	return true
 }
 
+func returnProjectPercentage(projectID int) float32 {
+	db := dbConnection.Db()
+	var total float32
+	var complete float32
+	sql := "SELECT count(*) FROM tasks WHERE project_id = $1"
+	err := db.QueryRow(sql, projectID).Scan(&total)
+	if err != nil {
+		log.Print(err)
+		return 0
+	}
+
+	sql = "SELECT count(*) FROM tasks WHERE project_id = $1 AND status = 'done'"
+	err = db.QueryRow(sql, projectID).Scan(&complete)
+	if err != nil {
+		log.Print(err)
+		return 0
+	}
+	return (complete / total * 100)
+}
+
 func selectProjects(projectRequest getProjectsRequest) ([]Project, []Project, []Project) {
 	db := dbConnection.Db()
 	if db == nil {
@@ -45,15 +65,22 @@ func selectProjects(projectRequest getProjectsRequest) ([]Project, []Project, []
 
 	for rows.Next() {
 		var project Project
-		err := rows.Scan(&project.ID, &project.Title, &project.Description, &project.Status, &project.UserID, &project.Color)
+
+		var status string
+		var userID int
+
+		// err := rows.Scan(&project.ID, &project.Title, &project.Description, &project.Status, &project.UserID, &project.Color)
+		err := rows.Scan(&project.ID, &project.Title, &project.Description, &status, &userID, &project.Color)
 		if err != nil {
 			log.Print(err)
 			return nil, nil, nil
 		}
 
+		project.Percentage = fmt.Sprintf("%.2f", returnProjectPercentage(project.ID))
+
 		// Categorize project based on its status
-		switch project.Status {
-		case "made":
+		switch status {
+		case "done":
 			madeProjects = append(madeProjects, project)
 		case "todo":
 			todoProjects = append(todoProjects, project)

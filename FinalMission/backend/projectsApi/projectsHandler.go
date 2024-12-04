@@ -10,6 +10,14 @@ import (
 	"github.com/gorilla/mux"
 )
 
+func merge[T any](lists ...[]T) []T {
+	var merged []T
+	for _, list := range lists {
+		merged = append(merged, list...)
+	}
+	return merged
+}
+
 func GetProjects(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
 	id, err := strconv.Atoi(params["id"])
@@ -18,7 +26,7 @@ func GetProjects(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Invalid ID parameter", http.StatusBadRequest)
 		return
 	}
-	
+
 	projectRequest := getProjectsRequest{
 		UserID: id,
 	}
@@ -29,7 +37,8 @@ func GetProjects(w http.ResponseWriter, r *http.Request) {
 
 	madeProjects, todoProjects, doingProjects := selectProjects(projectRequest)
 
-	response := getProjectsResponse{TodoProjects: todoProjects, DoingProjects: doingProjects, DoneProjects: madeProjects}
+	// response := getProjectsResponse{TodoProjects: todoProjects, DoingProjects: doingProjects, DoneProjects: madeProjects}
+	response := getProjectsResponse{Projects: merge(todoProjects, doingProjects, madeProjects)}
 
 	log.Println("Projects Selected!")
 

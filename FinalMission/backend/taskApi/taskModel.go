@@ -10,19 +10,25 @@ type getTaskResponse struct {
 }
 
 type TaskColumn struct {
-	ID         int    `json:"id"`
-	ColumnName string `json:"columnName"`
-	Tasks      []task `json:"tasks"`
+	ID int `json:"id"`
+	// ColumnName string `json:"columnName"`
+	// Tasks      []task `json:"tasks"`
+	ColumnName string `json:"nome_coluna"`
+	Tasks      []task `json:"atividades"`
 }
 
 type task struct {
+	// ID          string `json:"id"`
+	// ProjectID   string `json:"projectId"`
+	// ProjectName string `json:"projectName"`
+	// Title       string `json:"title"`
+	// Description string `json:"description"`
+	// Status      string `json:"status"`
+	// Color       string `json:"color"`
 	ID          string `json:"id"`
-	ProjectID   string `json:"projectId"`
-	ProjectName string `json:"projectName"`
-	Title       string `json:"title"`
-	Description string `json:"description"`
-	Status      string `json:"status"`
-	Color       string `json:"color"`
+	Title       string `json:"titulo_atividade"`
+	ProjectName string `json:"nome_projeto"`
+	Color       string `json:"cor_projeto"`
 }
 
 type createTaskRequest struct {
@@ -34,7 +40,11 @@ type createTaskRequest struct {
 }
 
 type createTaskResponse struct {
-	StatusCode int    `json:"statusCode"`
-	TaskId     int    `json:"taskId,omitempty"`
-	Error      string `json:"error,omitempty"`
+	// StatusCode int    `json:"statusCode"`
+	// TaskId     int    `json:"taskId,omitempty"`
+	// Error      string `json:"error,omitempty"`
+	ID          int    `json:"id"`
+	Title       string `json:"titulo_atividade"`
+	ProjectName string `json:"nome_projeto"`
+	Color       string `json:"cor_projeto"`
 }

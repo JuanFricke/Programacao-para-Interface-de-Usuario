@@ -60,13 +60,17 @@ func selectTasks(request getTaskRequest) ([]task, []task, []task, error) {
 
 	for rows.Next() {
 		var task task
-		err := rows.Scan(&task.ID, &task.Title, &task.Description, &task.Status, &task.ProjectID, &task.Color, &task.ProjectName)
+		// err := rows.Scan(&task.ID, &task.Title, &task.Description, &task.Status, &task.ProjectID, &task.Color, &task.ProjectName)
+		var Description string
+		var Status string
+		var ProjectID int
+		err := rows.Scan(&task.ID, &task.Title, &Description, &Status, &ProjectID, &task.Color, &task.ProjectName)
 		if err != nil {
 			log.Printf("Error scanning rows: %v", err)
 			return nil, nil, nil, err
 		}
 
-		switch task.Status {
+		switch Status {
 		case "done":
 			Donetasks = append(Donetasks, task)
 		case "todo":
@@ -77,4 +81,11 @@ func selectTasks(request getTaskRequest) ([]task, []task, []task, error) {
 	}
 	return Donetasks, Doingtasks, Todotasks, nil
 
+}
+
+func retrieveProjectInfo(projectId int) (color string, projectName string, err error) {
+	db := dbConnection.Db()
+	sqlQuery := "SELECT color, title FROM projects WHERE id = $1"
+	err = db.QueryRow(sqlQuery, projectId).Scan(&color, &projectName)
+	return color, projectName, err
 }
