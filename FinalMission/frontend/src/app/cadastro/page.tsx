@@ -27,12 +27,13 @@ function Cadastro() {
       //   return;
       // }
       setCarregando(true);
-      const response = await Api({ body, rota: "signup", method: "POST" });
-console.log(response);
-
-      localStorage.setItem("auth_token", response.token);
-      localStorage.setItem("id_usuario", response.id_usuario);
-      router.push("/painel");
+      const response = await Api({ body, rota: "signup", method: "POST" })
+      
+      if (response.statusCode == 201) {
+        router.push("/login");
+      } else {
+        setErro("Erro ao efetuar o cadastro.");
+      }
     } catch (error) {
       setErro("Erro ao efetuar o cadastro.");
     } finally {

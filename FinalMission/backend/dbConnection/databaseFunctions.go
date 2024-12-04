@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"time"
 
 	"github.com/joho/godotenv"
 )
@@ -24,7 +25,7 @@ func InitDb() {
 	requiredEnvVars := []string{"POSTGRES_HOST", "POSTGRES_PORT", "POSTGRES_USER", "POSTGRES_PASSWORD", "POSTGRES_DB", "POSTGRES_SSLMODE"}
 	for _, envVar := range requiredEnvVars {
 		if os.Getenv(envVar) == "" {
-			log.Fatalf("Environment variable %s is missing", envVar)
+			log.Printf("Environment variable %s is missing", envVar)
 		}
 	}
 
@@ -39,16 +40,30 @@ func InitDb() {
 	)
 
 	var err error
-	db, err = sql.Open("postgres", connStr)
-	if err != nil {
-		log.Fatalf("Failed to open DB connection: %v", err)
+
+	// Retry logic
+	maxRetries := 10
+	retryDelay := 5 * time.Second
+
+	for i := 0; i < maxRetries; i++ {
+		db, err = sql.Open("postgres", connStr)
+		if err != nil {
+			log.Printf("Attempt %d: Failed to open DB connection: %v", i+1, err)
+			time.Sleep(retryDelay)
+			continue
+		}
+
+		err = db.Ping()
+		if err == nil {
+			log.Println("Successfully connected to the database!")
+			return
+		}
+
+		log.Printf("Attempt %d: Failed to ping database: %v", i+1, err)
+		time.Sleep(retryDelay)
 	}
 
-	if err = db.Ping(); err != nil {
-		log.Fatalf("Failed to ping database: %v", err)
-	}
-
-	log.Println("Successfully connected to the database!")
+	log.Fatalf("Failed to connect to the database after %d attempts: %v", maxRetries, err)
 }
 
 func CloseDb() {

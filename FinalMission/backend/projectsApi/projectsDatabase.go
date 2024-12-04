@@ -21,6 +21,26 @@ func checkProjectExists(userID int, projectTitle string) bool {
 	return true
 }
 
+func returnProjectPercentage(projectID int) float32 {
+	db := dbConnection.Db()
+	var total float32
+	var complete float32
+	sql := "SELECT count(*) FROM tasks WHERE project_id = $1"
+	err := db.QueryRow(sql, projectID).Scan(&total)
+	if err != nil {
+		log.Print(err)
+		return 0
+	}
+
+	sql = "SELECT count(*) FROM tasks WHERE project_id = $1 AND status = 'done'"
+	err = db.QueryRow(sql, projectID).Scan(&complete)
+	if err != nil {
+		log.Print(err)
+		return 0
+	}
+	return (complete / total * 100)
+}
+
 func selectProjects(projectRequest getProjectsRequest) ([]Project, []Project, []Project) {
 	db := dbConnection.Db()
 	if db == nil {
@@ -33,7 +53,7 @@ func selectProjects(projectRequest getProjectsRequest) ([]Project, []Project, []
 	rows, err := db.Query(sql, projectRequest.UserID)
 
 	if err != nil {
-		log.Fatal(err)
+		log.Print(err)
 		return nil, nil, nil
 	}
 
@@ -45,15 +65,22 @@ func selectProjects(projectRequest getProjectsRequest) ([]Project, []Project, []
 
 	for rows.Next() {
 		var project Project
-		err := rows.Scan(&project.ID, &project.Title, &project.Description, &project.Status, &project.UserID, &project.Color)
+
+		var status string
+		var userID int
+
+		// err := rows.Scan(&project.ID, &project.Title, &project.Description, &project.Status, &project.UserID, &project.Color)
+		err := rows.Scan(&project.ID, &project.Title, &project.Description, &status, &userID, &project.Color)
 		if err != nil {
-			log.Fatal(err)
+			log.Print(err)
 			return nil, nil, nil
 		}
 
+		project.Percentage = fmt.Sprintf("%.2f", returnProjectPercentage(project.ID))
+
 		// Categorize project based on its status
-		switch project.Status {
-		case "made":
+		switch status {
+		case "done":
 			madeProjects = append(madeProjects, project)
 		case "todo":
 			todoProjects = append(todoProjects, project)
@@ -68,7 +95,7 @@ func selectProjects(projectRequest getProjectsRequest) ([]Project, []Project, []
 func insertProject(projectRequest addProjectRequest) addProjectResponse {
 	db := dbConnection.Db()
 	if db == nil {
-		log.Fatal("Database connection is nil")
+		log.Print("Database connection is nil")
 		return addProjectResponse{StatusCode: 500, Status: "Database connection error"}
 	}
 	log.Print("Verifing if project Exists")
@@ -81,7 +108,7 @@ func insertProject(projectRequest addProjectRequest) addProjectResponse {
 	var id int
 	err := db.QueryRow(sql, projectRequest.UserID, projectRequest.Title, projectRequest.Description, projectRequest.Status, projectRequest.Color).Scan(&id)
 	if err != nil {
-		log.Fatal(err)
+		log.Print(err)
 		return addProjectResponse{StatusCode: 500, Status: "Error inserting project"}
 	}
 	log.Print("Project inserted successfully")

@@ -5,33 +5,40 @@ import (
 	"io"
 	"log"
 	"net/http"
+	"strconv"
+
+	"github.com/gorilla/mux"
 )
 
+func merge[T any](lists ...[]T) []T {
+	var merged []T
+	for _, list := range lists {
+		merged = append(merged, list...)
+	}
+	return merged
+}
+
 func GetProjects(w http.ResponseWriter, r *http.Request) {
-	if r.Method != http.MethodPost {
-		http.Error(w, "Invalid request method", http.StatusMethodNotAllowed)
-		return
-	}
-	body, err := io.ReadAll(r.Body)
+	params := mux.Vars(r)
+	id, err := strconv.Atoi(params["id"])
+
 	if err != nil {
-		http.Error(w, "Unable to read request body", http.StatusBadRequest)
-		return
-	}
-	defer r.Body.Close()
-
-	var projectRequest getProjectsRequest
-	if err := json.Unmarshal(body, &projectRequest); err != nil {
-		http.Error(w, "Invalid JSON format", http.StatusBadRequest)
+		http.Error(w, "Invalid ID parameter", http.StatusBadRequest)
 		return
 	}
 
-	log.Println("Json Received and parsing Complete")
+	projectRequest := getProjectsRequest{
+		UserID: id,
+	}
+
+	log.Println("Getting Projects...")
 
 	// -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
 	madeProjects, todoProjects, doingProjects := selectProjects(projectRequest)
 
-	response := getProjectsResponse{TodoProjects: todoProjects, DoingProjects: doingProjects, DoneProjects: madeProjects}
+	// response := getProjectsResponse{TodoProjects: todoProjects, DoingProjects: doingProjects, DoneProjects: madeProjects}
+	response := getProjectsResponse{Projects: merge(todoProjects, doingProjects, madeProjects)}
 
 	log.Println("Projects Selected!")
 
